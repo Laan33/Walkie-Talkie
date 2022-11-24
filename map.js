@@ -4,6 +4,9 @@
 var map; //Will contain map object.
 var marker = false; ////Has the user plotted their location marker?
 
+
+//billbob joe
+
 //Function called to initialize / create the map.
 //This is called when the page has loaded.
 function initMap() {
