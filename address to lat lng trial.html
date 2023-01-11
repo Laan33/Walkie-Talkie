@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>addr -> latlng</title>
+</head>
+<body>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=&libraries=places"></script>
+
+
+
+
+<div>
+    <h1>Type in your desired address below</h1>
+
+    <input id="destAddress" type="text" placeholder="Enter address here"/>
+    <div>
+        <p>Latitude:
+            <input type="text" id="latitude" readonly/>
+        </p>
+        <p>Longitude:
+            <input type="text" id="longitude" readonly/>
+        </p>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="googleMapAddress.js"></script>
+
+<script type="text/javascript" src="map.js"></script>
+
+
+<body>
+<div id="map"></div>
+</body>
+
+
+
+</body>
+</html>

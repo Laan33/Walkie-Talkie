@@ -35,7 +35,7 @@ function distance(lat1, lat2, lon1, lon2)
 
 // Driver code
 
-let lat1 = 53.2697672869753;
+let lat1 = 52.2697672869753;
 let lat2 = 53.26509985622571;
 let lon1 = -9.057480695385957;
 let lon2 = -9.084413181417599;

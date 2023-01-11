@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="English">
 
-    <style type="text/css">
+    <style>
         #map{ width:700px; height: 500px; }
     </style>
 
@@ -33,11 +33,34 @@
 
 
 
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=Araries=places"></script>
 
 
 
+
+    <div>
+        <h1>Type in your desired address below</h1>
+
+        <input id="destAddress" type="text" placeholder="Enter address here"/>
+        <div>
+            <p>Latitude:
+                <input type="text" id="latitude" readonly/>
+            </p>
+            <p>Longitude:
+                <input type="text" id="longitude" readonly/>
+            </p>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="googleMapAddress.js"></script>
+
+
+
+
+<!--
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
-
+-->
     <title>Save Marker Example</title>
     <h1>Select a location!</h1>
 <p>Click on a location on the map to select it. Drag the marker to change location.</p>
