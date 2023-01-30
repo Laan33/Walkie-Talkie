@@ -20,7 +20,7 @@
 
 <script>
 
-import app from '../api/firebase';
+import app from '../.api/firebase';
 import { getFunctions, httpsCallable } from "firebase/functions";
 
 export default {
