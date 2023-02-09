@@ -8,6 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "cros": "^1.0.1",
+    "firebase": "^9.16.0",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
