@@ -1,33 +1,35 @@
 <script>
-import app from '@/.api/firebase';
-import { getFunctions, httpsCallable } from "firebase/functions";
+import app from '../.api/firebase';
+import { getFunctions, httpsCallable, connectFunctionsEmulator } from
+"firebase/functions";
 
 export default {
     name: "Blog",
-        data() {
-            return {
-                handle: '',
-                comment: ''
-            }
-        },
-    methods : {
-        postComment () {
+        data(){
+        return {
+        handle:'',
+        comment:''
+    }
+    },
+    methods: {
+        postComment(){
             console.log(this.handle);
             console.log(this.comment);
-
             const functions = getFunctions(app);
-            const postComment = httpsCallable(functions, 'postcomment');
 
-            postComment({"handle": this.handle, "comment":
-            this.comment})
-            .then((result) => {
+            if(window.location.hostname === 'localhost') // Check if working locally
+            connectFunctionsEmulator(functions, "localhost", 5001);
+            
+            const postComment = httpsCallable(functions, 'postcomment');
+            postComment({"handle": this.handle, "comment": this.comment}).then((result) => {
             // Read result of the Cloud Function.
-            /** @type {any} */
+            // /** @type {any} */
             console.log(result);
             });
-            }
-            }
+        }
+    }
 }
+
 </script>
 
 
@@ -73,3 +75,5 @@ label, div{
 }
 
 </style>
+
+
