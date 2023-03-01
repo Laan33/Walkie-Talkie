@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body>
+    <div id="enterDetails">
+      <h1>Enter Details</h1>
+      <h4>ID</h4>
+      <input id = "enterID" type="text">
+
+      <h4>Name</h4>
+      <input id = "enterName" type="text">
+
+      <h4>Location</h4>
+      <input id = "enterLoc" type="text"><br>
+
+      <button id ="enterVal">Enter</button>
+      <button id ="update">Update</button>
+      <button id ="remove">Remove</button>
+
+    </div>
+
+    <div id="findDetails">
+      <h1>Find ID</h1>
+      <h4>ID</h4>
+      <input id = "findID" type="text"><br>
+      <button id ="find">Search</button>
+
+      <h3 id ="name" type = text></h3>
+      <h3 id = "loc" type = text></h3><br>
+    </div>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyAsePt3CWOF65D-VXLiHzgALnyaV0GyEtE",
+        authDomain: "dumplingsproject-85128.firebaseapp.com",
+        databaseURL: "https://dumplingsproject-85128-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "dumplingsproject-85128",
+        storageBucket: "dumplingsproject-85128.appspot.com",
+        messagingSenderId: "133458339612",
+        appId: "1:133458339612:web:0f97c2332babdc0f1c3cd9",
+        measurementId: "G-MFW22SPKZB"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+
+      import {getDatabase, get, set, update, remove, ref, child}
+      from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+
+      const db = getDatabase();
+
+      var enterID = document.querySelector("#enterID");
+      var enterName = document.querySelector("#enterName");
+      var enterLoc = document.querySelector("#enterLoc");
+      var findID = document.querySelector("#findID");
+      var findName= document.querySelector("#name");
+      var findLoc = document.querySelector("#loc");
+
+      var insertBut = document.querySelector("#enterVal");
+      var updateBut = document.querySelector("#update");
+      var removeBut = document.querySelector("#remove");
+      var findBut = document.querySelector("#find");
+
+
+      function InsertData(){
+        set(ref(db, "People/" + enterID), {
+          Name: enterName.value,
+          ID: enterID.value,
+          Location: enterLoc
+        })
+                .then(()=> {
+                  alert("Data added successfully!");
+                })
+                .catch((error)=>{
+                  alert(error)
+                });
+      }
+
+      function FindData(){
+
+      }
+
+      function UpdateData(){
+
+      }
+
+      function RemoveData(){
+
+      }
+      insertBut.addEventListener('click', InsertData)
+      removeBut.addEventListener("click", RemoveData)
+      updateBut.addEventListener("click", UpdateData)
+      findBut.addEventListener("click", FindData)
+    </script>
+
+  </body>
+</html>
