@@ -8,10 +8,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "firebase": "^9.17.1",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@nuxtjs/vuetify": "^1.12.3",
     "@vitejs/plugin-vue": "^4.0.0",
     "vite": "^4.0.0"
   }
