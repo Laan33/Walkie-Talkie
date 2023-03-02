@@ -11,6 +11,7 @@ export default {
             comment:'',
             email: '',
             password: '',
+            
         }
     },
     methods: {
@@ -28,9 +29,19 @@ export default {
             // /** @type {any} */
             console.log(result);
             });
+        },
+        
+        openRegister(){
+            card.style.transform= "rotateY(-180deg)";
+        },
+
+        openLogin(){ 
+            card.style.transform= "rotateY(0deg)";
         }
-    }
-}
+
+        }
+    }  
+
 
 </script>
 
@@ -40,36 +51,37 @@ export default {
     <title> WalkieTalkie Login and Registration</title>
 </head>
 
-<body>
+    <body>
     <div class="container1">
-        <div class="card">
-            <div class="inner-box" id="card">
-                <div class="card-front">
-                    <h2>LOGIN</h2>
-                    <form>
-                    <input type="email" class="input-box" v-model= "email" placeholder="Your Email ID" required>
-                    <input type="password" class="input-box" v-model= "password" placeholder="Password" required>
-                    <button type="submit" class="submit-btn" @click="registerUser" >Submit</button>  
-                    <input type="checkbox" class="checkbox"><span>Remember Me</span> 
-                    </form>
-                    <button type="button" class="btn"  onclick="openRegister()">I'm new here</button>
-                    <a href="">Forgot Password</a>    
-                </div>
-                <div class="card-back">
-                    <h2>Register</h2>
-                    <form>
-                        <input type="text" class="input-box" placeholder="Your Name" required>
-                        <input type="email" class="input-box" placeholder="Your Email ID" required>
-                        <input type="password" class="input-box" placeholder="Password" required>
-                        <button type="submit" class="submit-btn" onclick="window.location='Home Page.html';">Submit</button>  
-                        <input type="checkbox" class="checkbox"><span>Remember Me</span> 
-                    </form>
-                    <button type="button" class="btn" onclick="openLogin()">I have an account</button>
-                    <a href="">Forgot Password</a>
-                </div>
-            </div>
-        </div>
+      <div class="card">
+      <div class="inner-box" id="card">
+        <div class="card-front">
+        <h2>LOGIN</h2>
+        <form>
+          <input type="email" class="input-box" placeholder="Your Email ID" required>
+        <input type="password" class="input-box" placeholder="Password" required>
+      <button type="submit" class="submit-btn" onclick="window.location='Home Page.html';">Submit</button>  
+    <input type="checkbox" class="checkbox"><span>Remember Me</span> 
+    </form>
+    <button type="button" class="btn" @click="openRegister()">I'm new here</button>
+    <a href="">Forgot Password</a>    
+  </div>
+      <div class="card-back">
+        <h2>Register</h2>
+        <form>
+          <input type="text" class="input-box" placeholder="Your Name" required>
+          <input type="email" class="input-box" placeholder="Your Email ID" required>
+        <input type="password" class="input-box" placeholder="Password" required>
+      <button type="submit" class="submit-btn" onclick="window.location='Home Page.html';">Submit</button>  
+    <input type="checkbox" class="checkbox"><span>Remember Me</span> 
+    </form>
+    <button type="button" class="btn" @click="openLogin()">I have an account</button>
+    <a href="">Forgot Password</a>
+      </div>
     </div>
+    </div>
+    </div>
+    
 </body>
 </template>
 
