@@ -2,84 +2,106 @@
 import app from '../.api/firebase';
 import { getFunctions, httpsCallable, connectFunctionsEmulator } from
 "firebase/functions";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 
 export default {
-    name: "Blog",
+    name: "Registration",
         data(){
             return {
-            handle:'',
-            comment:'',
-            email: '',
-            password: '',
+            email:'',
+            password:'',
+            registerEmail: '',
+            registerPassword: '',
+            registerName:'',
             
         }
     },
     methods: {
-        registerUser(){
-            console.log(this.email);
-            console.log(this.pas);
-            const functions = getFunctions(app);
 
-            if(window.location.hostname === 'localhost') // Check if working locally
-            connectFunctionsEmulator(functions, "localhost", 5001);
-            
-            const postComment = httpsCallable(functions, 'postUserData');
-            postComment({"email": this.email, "password": this.password}).then((result) => {
-            // Read result of the Cloud Function.
-            // /** @type {any} */
-            console.log(result);
-            });
-        },
-        
         openRegister(){
             card.style.transform= "rotateY(-180deg)";
         },
 
         openLogin(){ 
             card.style.transform= "rotateY(0deg)";
-        }
+        },
 
+        register(){
+            const auth = getAuth(app);
+            createUserWithEmailAndPassword(auth, this.registerEmail, this.registerPassword)
+            .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user)
+            // ...
+
+            })
+            .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode)
+            console.log(errorMessage)
+            // ..
+            });
+        },
+
+        login(){
+            const auth = getAuth(app);
+            signInWithEmailAndPassword(auth, this.email, this.password).then((userCredential) => {
+            // Signed in
+            let user = userCredential.user;
+            console.log(user);
+
+            })
+            .catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log(errorCode)
+            console.log(errorMessage)
+            });
         }
-    }  
+    }
+}  
 
 
 </script>
 
 
 <template>
-<head>
-    <title> WalkieTalkie Login and Registration</title>
-</head>
+    <head>
+        <title> WalkieTalkie Login and Registration</title>
+    </head>
 
     <body>
-    <div class="container1">
-      <div class="card">
-      <div class="inner-box" id="card">
-        <div class="card-front">
-        <h2>LOGIN</h2>
-        <form>
-          <input type="email" class="input-box" placeholder="Your Email ID" required>
-        <input type="password" class="input-box" placeholder="Password" required>
-      <button type="submit" class="submit-btn" onclick="window.location='Home Page.html';">Submit</button>  
-    <input type="checkbox" class="checkbox"><span>Remember Me</span> 
-    </form>
-    <button type="button" class="btn" @click="openRegister()">I'm new here</button>
-    <a href="">Forgot Password</a>    
-  </div>
-      <div class="card-back">
-        <h2>Register</h2>
-        <form>
-          <input type="text" class="input-box" placeholder="Your Name" required>
-          <input type="email" class="input-box" placeholder="Your Email ID" required>
-        <input type="password" class="input-box" placeholder="Password" required>
-      <button type="submit" class="submit-btn" onclick="window.location='Home Page.html';">Submit</button>  
-    <input type="checkbox" class="checkbox"><span>Remember Me</span> 
-    </form>
-    <button type="button" class="btn" @click="openLogin()">I have an account</button>
-    <a href="">Forgot Password</a>
-      </div>
-    </div>
-    </div>
+        <div class="container1">
+            <div class="card">
+                <div class="inner-box" id="card">
+                    <div class="card-front">
+                    <h2>LOGIN</h2>
+                    <form>
+                    <input type="email" class="input-box" v-model="email" placeholder="Your Email" required>
+                    <input type="password" class="input-box" v-model="password" placeholder="Password" required>
+                <button type="submit" class="submit-btn" @click="login">Log In</button>  
+                <input type="checkbox" class="checkbox"><span>Remember Me</span> 
+                </form>
+                <button type="button" class="btn" @click="openRegister()">I'm new here</button>
+                <a href="">Forgot Password</a>    
+            </div>
+                <div class="card-back">
+                    <h2>Register</h2>
+                    <form>
+                        <input type="text" class="input-box" v-model="registerName" placeholder="Your Name" required>
+                        <input type="email" class="input-box" v-model="registerEmail"  placeholder="Your Email" required>
+                        <input type="password" class="input-box" v-model="registerPassword" placeholder="Password" required>
+                    <button type="submit" class="submit-btn" @click="register">Register</button>  
+                <input type="checkbox" class="checkbox"><span>Remember Me</span> 
+                </form>
+                <button type="button" class="btn" @click="openLogin()">I have an account</button>
+                <a href="">Forgot Password</a>
+                </div>
+            </div>
+        </div>
     </div>
     
 </body>

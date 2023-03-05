@@ -38,19 +38,6 @@ exports.postcomment = functions.https.onRequest((request,
     });
 });
 
-exports.postUserData = functions.https.onRequest((request,
-    response) => {
-    cors(request, response, () => {
-        const currentTime = admin.firestore.Timestamp.now();
-        request.body.timestamp = currentTime;
-        return admin.firestore().collection('userData').add({
-        handle: request.body.data.email,
-        comment:request.body.data.password, timestamp:
-        request.body.timestamp}).then(() => {
-        response.send({"data": "Saved in Database"});
-        });
-    });
-});
 
 exports.getcomments = functions.https.onRequest((request, response) => {
 

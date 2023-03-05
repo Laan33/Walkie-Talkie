@@ -6,7 +6,8 @@ const router = createRouter({
     {path: '/', component:()=> import('../views/Home.vue')},
     {path: '/register', component: () => import('../views/RegisterComponent.vue')},
     {path: '/sign-in',component: () => import('../views/SigIn.vue')},
-    {path: '/feed',component: () => import('../views/Feed.vue')}
+    {path: '/feed',component: () => import('../views/Feed.vue')},
+    
   ],
 });
 
