@@ -1,3 +1,0 @@
-<template>
-    sign-in
-    </template>
