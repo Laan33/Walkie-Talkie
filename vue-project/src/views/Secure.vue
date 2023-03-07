@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import app from '../api/firebase';
+import app from '../.api/firebase';
 import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
 export default {
   name: "Secure",
