@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="English">
+
+    <style>
+        #map{ width:700px; height: 500px; }
+    </style>
+
+    <script src="backEnd3.js">
+    </script>
+<body>
+
+
+    <style>
+        #map {
+            height: 100%;
+        }
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+<!--<script async defer src="&callback=init"></script> -->
+
+
+
+
+ <body>
+ <div id="map"></div>
+ </body>
+
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=Araries=places"></script>
+
+
+
+
+    <div>
+        <h1>Type in your desired address below</h1>
+
+        <input id="destAddress" type="text" placeholder="Enter address here"/>
+        <div>
+            <p>Latitude:
+                <input type="text" id="latitude" readonly/>
+            </p>
+            <p>Longitude:
+                <input type="text" id="longitude" readonly/>
+            </p>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="googleMapAddress.js"></script>
+
+
+
+
+<!--
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+-->
+    <title>Save Marker Example</title>
+    <h1>Select a location!</h1>
+<p>Click on a location on the map to select it. Drag the marker to change location.</p>
+
+
+
+<div id="mapholder"></div>
+
+<!--our form-->
+<h2>Chosen Location</h2>
+<form method="post">
+    <br>
+    <p>Latitude</p>
+    <input type="text" id="lat" readonly="yes"><br>
+    <p>Longitude</p>
+    <input type="text" id="lng" readonly="yes">
+    <br>
+</form>
+
+<script type="text/javascript" src="map.js"></script>
+
+
+<br>
+<script type="text/javascript" src="matching.js"></script>
+
+
+
+
+
+</body>
+</html>
