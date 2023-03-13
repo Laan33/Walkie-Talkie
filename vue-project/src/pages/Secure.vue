@@ -94,5 +94,7 @@ export default {
 </script>
 
 <style scoped>
-
+*{
+  padding-left: 10%;
+}
 </style>

@@ -47,7 +47,7 @@ export default {
     logout(){
       signOut(getAuth(app)).then(() => {
         // Send them back to the home page!
-         this.$router.push("/");
+          this.$router.push("/");
       });
     }
   }

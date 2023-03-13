@@ -8,5 +8,8 @@ import HelloWorld from '../components/HelloWorld.vue'
 </template>
 
 <style scoped>
+*{
+  padding-left: 10%;
+}
 
 </style>
