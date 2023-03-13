@@ -20,7 +20,7 @@ import Sidebar from '@/components/Sidebar.vue'
 		<Sidebar />
 
 		
-		<router-view />
+		<router-view></router-view>
 	</div>
 </template>
 
