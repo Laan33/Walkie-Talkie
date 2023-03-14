@@ -55,4 +55,7 @@ export default {
 .mt{
   margin-top: 20px;
 }
+*{
+  padding-left: 10%;
+}
 </style>

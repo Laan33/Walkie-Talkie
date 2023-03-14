@@ -130,4 +130,7 @@ export default {
 .right{
   text-align: right;
 }
+*{
+  padding-left: 10%;
+}
 </style>
