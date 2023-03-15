@@ -95,3 +95,16 @@ exports.securefunction = functions.https.onCall((data, context) => {
     }
 
 });
+    exports.getCurrentUserId = functions.https.onCall(async (data, context) => {
+        // Check if user is authenticated
+        if (!context.auth) {
+        throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function.');
+        }
+    
+        // Retrieve the current user ID
+        const userId = context.auth.uid;
+    
+        // Return the current user ID
+        return { userId };
+    });
+
