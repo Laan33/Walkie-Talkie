@@ -1,0 +1,17 @@
+name: Node Continuous Integration
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@2
+      - uses: actions/setup-node@1
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm test-rest
+      - run: npm run build
