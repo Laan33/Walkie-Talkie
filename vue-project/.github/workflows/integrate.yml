@@ -13,5 +13,5 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: npm test-rest
+      - run: npm test
       - run: npm run build
