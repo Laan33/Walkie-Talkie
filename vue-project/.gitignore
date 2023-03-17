@@ -14,6 +14,19 @@ dist-ssr
 coverage
 *.local
 
+*.json
+
+/public/
+.firebaserc
+firebase.json
+index.html
+package-lock.json
+package.json
+README.md
+src &
+functions.zip
+vite.config.js
+
 /cypress/videos/
 /cypress/screenshots/
 

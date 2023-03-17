@@ -1,32 +1,76 @@
-<script setup>
-
+<!-- <script setup>
+import Navigation from '@/components/Navigation.vue'
+import Sidebar from '@/components/Sidebar.vue'
 </script>
 
 <template>
+  <Navigation />
+  <Sidebar />
   <router-view></router-view>
 </template>
 
 <style scoped>
-header {
-line-height: 1.5;
+
+</style> -->
+
+
+<template>
+	<div class="app">
+		
+		<Sidebar />
+
+		
+		<router-view></router-view>
+	</div>
+</template>
+
+<script setup>
+import Sidebar from '@/components/Sidebar.vue'
+
+</script>
+
+
+<style lang="scss">
+:root {
+	--primary: #4ade80;
+	--primary-alt: #22c55e;
+	--grey: #64748b;
+	--dark: #1e293b;
+	--dark-alt: #334155;
+	--light: #f1f5f9;
+	--sidebar-width: 300px;
 }
-.logo {
-display: block;
-margin: 0 auto 2rem;
+
+* {
+  
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Fira sans', sans-serif;
 }
-@media (min-width: 1024px) {
-header {
-display: flex;
-place-items: center;
-padding-right: calc(var(--section-gap) / 2);
+
+body {
+	background: var(--light);
 }
-.logo {
-margin: 0 2rem 0 0;
+
+button {
+	cursor: pointer;
+	appearance: none;
+	border: none;
+	outline: none;
+	background: none;
 }
-header .wrapper {
-display: flex;
-place-items: flex-start;
-flex-wrap: wrap;
+
+.app {
+	display: flex;
+
+	main {
+		flex: 1 1 0;
+		padding: 2rem;
+
+		@media (max-width: 1024px) {
+			padding-left: 6rem;
+		}
+	}
 }
-}
-</style> 
+</style>
