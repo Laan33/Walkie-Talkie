@@ -9,6 +9,7 @@ function loadPage (component) {
     { path: '/blog', component: loadPage('Blog') },
     { path: '/about', component: loadPage('About') },
     { path: '/Register', component: loadPage('Register') },
+    { path: '/GetComments', component: loadPage('GetComments') },
    
 
   ]
