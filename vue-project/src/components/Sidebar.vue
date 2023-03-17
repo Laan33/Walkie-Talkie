@@ -18,19 +18,23 @@
 			</router-link>
 			<router-link to="/registration" class="button" v-if="!isLoggedIn">
 				<span class="material-icons">description</span>
-				<span class="text">registration</span>
+				<span class="text">Registration</span>
 			</router-link>
 			<router-link to="/login" class="button" v-if="!isLoggedIn">
-				<span class="material-icons">group</span>
-				<span class="text">login</span>
+				<span class="material-icons">login</span>
+				<span class="text">Login</span>
 			</router-link>
 			<router-link to="/secure" class="button" v-if="isLoggedIn" >
-					<span class="material-icons">email</span>
-					<span class="text">secure</span>
+					<span class="material-icons">key</span>
+					<span class="text">Secure</span>
+			</router-link>
+			<router-link to="/app" class="button" v-if="isLoggedIn" >
+					<span class="material-icons">apps</span>
+					<span class="text">App</span>
 			</router-link>
 			<router-link to="/secure" class="button" v-if="isLoggedIn" @click="logout">
-					<span class="material-icons">email</span>
-					<span class="text">log out</span>
+					<span class="material-icons">logout</span>
+					<span class="text">Logout</span>
 			</router-link>
 		</div>
 
@@ -66,6 +70,7 @@ export default {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log(user);
+		console.log(user.uid);
         this.isLoggedIn = true;
       } else {
         this.isLoggedIn = false;

@@ -36,6 +36,29 @@ exports.postcomment = functions.https.onRequest((request, response) => {
     });
 });
 
+// look at this when back
+exports.postusercomment = functions.https.onCall((data, context) => {
+    // context.auth contains information about the user, if they are logged in etc.
+    const currentTime = admin.firestore.Timestamp.now();
+    data.timestamp = currentTime;
+    if(typeof context.auth === 'undefined')
+        {
+        // request is made from an anonymous user
+        return admin.firestore().collection('comments').add({data:
+        data}).then(() => {
+            return "Data saved in Firestore"
+        });
+    }
+        else
+        {
+            data.uid = context.auth.uid;
+            return admin.firestore().collection('comments').add({data:
+            data}).then(() => {
+                return "Data saved in Firestore"
+        });
+        }
+    });
+
 exports.getcomments = functions.https.onRequest((request, response) => {
 
     cors(request, response, () => {
@@ -95,3 +118,40 @@ exports.securefunction = functions.https.onCall((data, context) => {
     }
 
 });
+    exports.getCurrentUserId = functions.https.onCall(async (data, context) => {
+        // Check if user is authenticated
+        if (!context.auth) {
+        throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function.');
+        }
+    
+        // Retrieve the current user ID
+        const userId = context.auth.uid;
+    
+        // Return the current user ID
+        return { userId };
+    });
+
+    exports.deleteusercomment = functions.https.onCall((data, context) => {
+        if(typeof context.auth === 'undefined')
+        {
+            // request is made from an anonymous user
+            throw new functions.https.HttpsError('permission-denied', 'Anonymous users cannot deletecomments');
+        }
+        else
+        {
+            return admin.firestore().collection('comments').doc(data.id).get().then((doc) => {
+        if (!doc.exists) {
+            // 1. Check if the document exists, throw error if not
+            throw new functions.https.HttpsError('not-found', 'No comment found matching the id');
+        } else if (doc.data().data.uid != context.auth.uid) {
+            // 2. Check if the user owns the document, otherwise throw error
+            throw new functions.https.HttpsError('permission-denied', 'You do not have sufficientpermissions to delete this comment');
+        } else {
+            // 3. If the user created the document then delete it
+            return doc.ref.delete().then(() => {
+        return 'Document successfully deleted'
+            });
+            }
+        });
+    }
+})

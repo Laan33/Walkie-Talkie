@@ -58,4 +58,5 @@ export default {
 *{
   padding-left: 10%;
 }
+
 </style>

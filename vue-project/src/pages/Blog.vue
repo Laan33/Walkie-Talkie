@@ -24,12 +24,16 @@
           <span @click="enableEditing(comment.data.comment)">
             {{comment.data.comment}}</span>
         </div>
+
         <div v-if="editing">
           <input v-model="tempValue" class="input"/>
           <button @click="disableEditing"> Cancel </button>
           <button @click="save(comment.id)"> Save </button>
         </div>
+
            <button type="button" @click="deleteComment(comment.id)" class="btn btn-primary">Delete Comment</button>
+           <button type="button" @click="getUserId(currentUserID)" class="btn btn-primary">Get User id</button>
+
       </li>
       </ul>
     </div>
@@ -45,7 +49,8 @@ export default {
       comment: '',
       commentsArray:[],
       editing:false,
-      tempValue:null
+      tempValue:null,
+      currentUserID:'',
     }
   },
   created(){
@@ -58,7 +63,7 @@ export default {
       let loader = this.$loading.show({    // Optional parameters
         loader: 'dots',
         container: this.$refs.container,
-        canCancel: false
+        canCancel: true
       });
       const functions = getFunctions(app);
       // Uncomment this code if your local emulators are running and you wish to test locally
@@ -76,7 +81,7 @@ export default {
       let loader = this.$loading.show({    // Optional parameters
         loader: 'dots',
         container: this.$refs.container,
-        canCancel: false
+        canCancel: true
       });
       const functions = getFunctions(app);
       // Uncomment this section if your local emulators are running and you wish to test locally
@@ -122,6 +127,15 @@ export default {
         this.getComments();
         this.editing = false;
       });
+    },
+    getCurrentUserId(){
+      const functions = getFunctions(app);
+      const getUserId = httpsCallable(functions, 'getCurrentUserId');
+      getUserId().then((result) => {
+        console.log(result.data);
+        loader.hide();
+        this.currentUserID = result.data;
+      }); 
     }
   }
 }
