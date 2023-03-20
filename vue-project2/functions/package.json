@@ -6,15 +6,19 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "test": "mocha --reporter spec"
   },
   "engines": {
     "node": "16"
   },
   "main": "index.js",
   "dependencies": {
+    "@firebase/auth": "^0.21.4",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
-    "firebase-admin": "^11.5.0",
+    "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.0"
   },
   "devDependencies": {
