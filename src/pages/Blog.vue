@@ -31,7 +31,7 @@
           <button @click="save(comment.id)"> Save </button>
         </div>
 
-           <button type="button" @click="deleteComment(comment.id)" class="btn btn-primary">Delete Comment</button>
+           <button type="button" @click="deleteComment(comment.id)" class="btn btn-primary">Delete Comments</button>
            <button type="button" @click="getUserId(currentUserID)" class="btn btn-primary">Get User id</button>
 
       </li>
