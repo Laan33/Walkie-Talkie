@@ -14,7 +14,7 @@
       <button type="button" @click="postComment" class="btn btn-primary">Post Comment</button>
     </div>
     <div class="mb-3 right">
-      <button type="button" @click="getComments" class="btn btn-primary">Show Comments</button>
+      <button type="button" @click="getComments" class="btn btn-primary">show Comments</button>
     </div>
     <!-- Checks to make sure there are actual comments to display -->
     <div v-if="commentsArray.length > 0">
