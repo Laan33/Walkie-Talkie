@@ -11,10 +11,12 @@
       <label for="exampleInputPassword1">Password</label>
       <input type="password" v-model="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
     </div>
+    <!-- 
     <div class="form-group">
       <label for="exampleInputUsername1">Username</label>
       <input type="username" v-model="username" class="form-control" id="exampleInputUsername1" placeholder="Username">
     </div>
+    -->
     <button @click="register" class="btn btn-primary mt-2">Create Account</button>
     </div>
   </header>
@@ -28,17 +30,17 @@ export default {
   data() {
     return {
       email: "",
-      password: "",
-      username: ""
+      password: ""
+      //username: ""
     }
   },
   methods: {
     register() {
       console.log("Email " + this.email);
       console.log("Password " + this.password);
-      console.log("Username " + this.username);
+      //console.log("Username " + this.username);
       const auth = getAuth(app);
-      createUserWithEmailAndPassword(auth, this.email, this.password, this.username)
+      createUserWithEmailAndPassword(auth, this.email, this.password)
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;

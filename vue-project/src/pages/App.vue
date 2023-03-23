@@ -28,6 +28,11 @@
     -->
     <br><br>
     <div class="mb-3 center">
+      <label for="exampleUsernameInput1" class="form-label">Username</label>
+      <input type="username" class="form-control" v-model="username" id="exampleUsernameInput1"
+        placeholder="Username">
+    </div>
+    <div class="mb-3 center">
       <label for="stateLocation">Origin Location</label>
       <select name="state" v-model="state" id="state" :value="value" @change="e => $emit('input', e.target.value)">
 
@@ -91,6 +96,7 @@ export default {
     return {
       handle: '',
       comment: '',
+      username: '',
       state: '',
       commentsArray: [],
       locationArray: [],
@@ -163,7 +169,6 @@ export default {
     },
 
     postLocation() {
-      console.log("THIS WORKS 1");
       /* TO DO PUT LOADER BACK 
       let loader = this.$loading.show({ // Optional parameters
         loader: 'dots',
@@ -172,14 +177,15 @@ export default {
       });*/
       const functions = getFunctions(app);
 
-      console.log("THIS WORKS 3");
+      console.log("Posting user location");
       const postLocation = httpsCallable(functions, 'postuserlocation');
       postLocation({
         "handle": this.handle, "location":
-          this.state
+          this.state, "Username": this.username
       }).then((result) => {
         // Read result of the Cloud Function.
         // /** @type {any} */
+        console.log(result);
         loader.hide();
         //this.get();
       });
