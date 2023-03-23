@@ -1,14 +1,29 @@
+# vue-project
 
+This template should help get you started developing with Vue 3 in Vite.
 
+## Recommended IDE Setup
 
-For team members:
-When setting up firebase, follow below instructions:
-1. Clone repo
-2. Set up your firestore database 
-  -Set rules to "allow read, write: if request.auth != null;"
-  -launch in production  
-3. Install vue 
-  -install npm & dependencies 
-4. Install firebase
-  -initialise firebase
-  -add database and firebase functions to the initialisation
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
