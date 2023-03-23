@@ -161,7 +161,9 @@ export default {
       const functions = getFunctions(app);
 
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
-      getMatchingUsers().then((result) => {
+      getMatchingUsers({
+        "location": this.state
+      }).then((result) => {
         console.log(result.data);
         loader.hide();
         this.locationArray = result.data;
@@ -175,6 +177,7 @@ export default {
         container: this.$refs.container,
         canCancel: true
       });*/
+      //var userLoc = this.state;
       const functions = getFunctions(app);
 
       console.log("Posting user location");

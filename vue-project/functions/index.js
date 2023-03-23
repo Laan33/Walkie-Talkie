@@ -1,7 +1,12 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const cors = require('cors')({ origin: true });
+
 admin.initializeApp();
+//const { collection, query, where } = require("firebase/firestore");
+const db = admin.firestore();
+const locEntryRef = db.collection("locations");
+
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -38,28 +43,27 @@ exports.postcomment = functions.https.onRequest((request, response) => {
 
 
 exports.postuserlocation = functions.https.onCall((data, context) => {
-    console.log("THIS WORKS 2"); 
     // context.auth contains information about the user, if they are logged in etc.
     const currentTime = admin.firestore.Timestamp.now();
     data.timestamp = currentTime;
-    
-        if (typeof context.auth === 'undefined') {
-            // request is made from an anonymous user
-            return admin.firestore().collection('locations').add({ data: data }).then(() => {
-                return "Data saved in Firestore"
-            });
-        }
-        else {
-            data.uid = context.auth.uid;
-            return admin.firestore().collection('locations').add({
-                data:
-                    data
-            }).then(() => {
-                
-                return "Data saved in Firestore"
-            });
-        }
-    
+
+    if (typeof context.auth === 'undefined') {
+        // request is made from an anonymous user
+        return admin.firestore().collection('locations').add({ data: data }).then(() => {
+            return "Data saved in Firestore"
+        });
+    }
+    else {
+        data.uid = context.auth.uid;
+        return admin.firestore().collection('locations').add({
+            data:
+                data
+        }).then(() => {
+
+            return "Data saved in Firestore"
+        });
+    }
+
 });
 
 // look at this when back
@@ -89,11 +93,32 @@ exports.postusercomment = functions.https.onCall((data, context) => {
 
 exports.getmatchingusers = functions.https.onRequest((request, response) => {
 
-    cors(request, response, () => {
+    cors(request, response, async () => {
         // 1. Connect to our Firestore database
         console.log("The request made it in here");
         let myData = [];
-        return admin.firestore().collection('comments').orderBy('data.timestamp').get().then((snapshot) => {
+
+
+        const stateQuery = query(locEntryRef, where("state", "==", "CA"));
+
+        const querySnapshot = await getDocs(stateQuery);
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            myData.push(doc.data()); //adding doc data to the array
+        });
+
+        
+            console.log(myData);
+
+            // 2. Send data back to client
+            return response.json({ data: myData });
+       
+    });
+});
+
+/*
+        return admin.firestore().collection('locations').orderBy('data.timestamp').get().then((snapshot) => {
 
             if (snapshot.empty) {
                 console.log('No matching documents.');
@@ -104,14 +129,7 @@ exports.getmatchingusers = functions.https.onRequest((request, response) => {
             snapshot.forEach(doc => {
                 console.log(doc.id);
                 myData.push(Object.assign(doc.data(), { id: doc.id }));
-            });
-            console.log(myData);
-
-            // 2. Send data back to client
-            response.json({ data: myData });
-        });
-    });
-});
+            });  //});*/
 
 
 exports.getcomments = functions.https.onRequest((request, response) => {

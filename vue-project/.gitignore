@@ -17,7 +17,9 @@ coverage
 
 *.json
 
-
+/.firebase/
+.firebase/
+/.firebase/
 /public/
 .firebaserc
 firebase.json
