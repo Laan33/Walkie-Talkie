@@ -1,0 +1,26 @@
+<div class="form-group">
+
+      <select name="state" id="state" :value="value" @change="e => $emit('input', e.target.value)">
+
+    <option value="" selected="selected">State</option>
+    <option value="AL">Alabama</option>
+    <option value="AK">Alaska</option>
+    <option value="AZ">Arizona</option>
+    <option value="AR">Arkansas</option>
+    <option value="CA">California</option>
+    <option value="CO">Colorado</option>    
+  </select>
+      <label for="exampleInputEmail1">Origin Location</label>
+      <input type="email" v-model="email" class="form-control" id="exampleInputEmail1" aria-describedby="locDesc" placeholder="Enter email">
+      <small id="locDesc" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+
+
+    props: {
+    value: String,
+  },
+
+  
+      console.log("Location " + this.location)
+
+      

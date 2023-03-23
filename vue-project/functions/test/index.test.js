@@ -3,7 +3,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
 const expect = chai.expect;
-describe('Testing posting comments', function () {
+    describe('Testing posting comments', function () {
     this.timeout(100000);
     it('Tests if the db can save comments successfully', async () => {
         const result = await chai.request('https://us-central1-my-awesome-project-86da3.cloudfunctions.net')
