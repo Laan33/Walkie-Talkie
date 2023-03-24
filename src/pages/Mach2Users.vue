@@ -37,6 +37,9 @@
         <button type="button" @click="postComment" class="btn btn-primary">Post Comment</button>
       </div>
       <div class="mb-3 right">
+        <button type="button" @click="matchData" class="btn btn-primary">get mach</button>
+      </div>
+      <div class="mb-3 right">
         <button type="button" @click="getComments" class="btn btn-primary">Show Comments</button>
       </div>
       <div>
@@ -74,6 +77,8 @@
   import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
   import {getAuth, onAuthStateChanged, signOut} from "firebase/auth";
   import {store} from '../store/store';
+  import { collection } from "firebase/firestore";
+  import { collectionGroup, query, where, getDocs } from "firebase/firestore";
   export default {
     data() {
       return {
@@ -81,6 +86,7 @@
         uLocation: '',
         uDestination:'',
         myValue: '',
+        returnedData: [],
         myOptions: ['Galway', 'Clare', 'op3'],
         commentsArray:[],
         editing:false,
@@ -88,11 +94,15 @@
         user:null,
         userID: null,
         store,
+
+
+        match: []
       }
     },
     created(){
   
-      this.getComments();
+      //this.getComments();
+      this.matchData();
       //window.setInterval(this.getComments, 1000);
     },
     methods : { // and look at this tooooooooooooooooo
@@ -127,6 +137,28 @@
           console.log(result.data);
           loader.hide();
           this.commentsArray = result.data;
+        });
+      },
+      matchData(){
+        let loader = this.$loading.show({    // Optional parameters
+          loader: 'dots',
+          container: this.$refs.container,
+          canCancel: true
+        });
+        
+        const functions = getFunctions(app);
+        
+        const getComments = httpsCallable(functions, 'getmatchingdata');
+        getComments().then((result) => {
+          console.log("triggered");
+          console.log(result.data);
+          loader.hide();
+            if(result.data.uDestination == this.uDestination 
+            && result.data.uLocation == this.uLocation){
+                this.match = result.data.uName;
+                console.log(this.match);
+            }
+          
         });
       },
       myChangeEvent(val){
@@ -185,6 +217,10 @@
             });
             this.getComments();
             //window.setInterval(this.getComments, 1000);
+
+
+            
+            
         },
         deleteComment(id){
             const functions = getFunctions(app);
