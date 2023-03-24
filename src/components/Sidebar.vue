@@ -32,6 +32,14 @@
 					<span class="material-icons">apps</span>
 					<span class="text">App</span>
 			</router-link>
+			<router-link to="/map" class="button" v-if="isLoggedIn" >
+					<span class="material-icons">map</span>
+					<span class="text">Map</span>
+			</router-link>
+			<router-link to="/mach" class="button" v-if="isLoggedIn" >
+					<span class="material-icons">apps</span>
+					<span class="text">Mach App</span>
+			</router-link>
 			<router-link to="/secure" class="button" v-if="isLoggedIn" @click="logout">
 					<span class="material-icons">logout</span>
 					<span class="text">Logout</span>

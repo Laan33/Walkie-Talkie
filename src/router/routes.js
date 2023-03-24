@@ -28,6 +28,9 @@ export default [
     { path: '/registration', component: loadPage('Registration') },
     { path: '/login', component: loadPage('Login') },
     { path: '/secure', component: loadPage('Secure')},
-    { path: '/app', component: loadPage('App')}
+    { path: '/app', component: loadPage('App')},
+    { path: '/map', component: loadPage('Map')},
+    { path: '/mach', component: loadPage('Mach2Users')}
+
 
 ]

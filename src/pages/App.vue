@@ -50,6 +50,7 @@
 
   <script>
   import app from '../.api/firebase';
+  
   import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
   import {getAuth, onAuthStateChanged, signOut} from "firebase/auth";
   import {store} from '../store/store';
