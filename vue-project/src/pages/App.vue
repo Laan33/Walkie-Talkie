@@ -133,7 +133,7 @@ export default {
       }).then((result) => {
         // Read result of the Cloud Function.
         // /** @type {any} */
-        loader.hide();
+        //loader.hide();
         this.getComments();
       });
     },
@@ -149,7 +149,7 @@ export default {
       const getComments = httpsCallable(functions, 'getcomments');
       getComments().then((result) => {
         console.log(result.data);
-        loader.hide();
+        //loader.hide();
         this.commentsArray = result.data;
       });
     },
@@ -168,7 +168,7 @@ export default {
         "location": this.state
       }).then((result) => {
         console.log(result.data);
-        loader.hide();
+        //loader.hide();
         this.locationArray = result.data;
       });
     },
@@ -186,18 +186,28 @@ export default {
         "location": this.state
       }).then((result) => {
         console.log(result.data);
-        loader.hide();
+        //loader.hide();
         this.locationArray = result.data;
       });
     },
 
     postLocation() {
-      /* TO DO PUT LOADER BACK 
-      let loader = this.$loading.show({ // Optional parameters
-        loader: 'dots',
-        container: this.$refs.container,
-        canCancel: true
-      });*/
+      const functions = getFunctions(app);
+
+      console.log("Posting user location");
+      const postLocation = httpsCallable(functions, 'postuserlocation');
+      postLocation({
+        "handle": this.handle,
+        "location": this.state,
+        "username": this.username
+      }).then((result) => {
+        console.log(result);
+      });
+    },
+
+    /* 
+
+    postLocation() {
       //var userLoc = this.state;
       const functions = getFunctions(app);
 
@@ -208,13 +218,13 @@ export default {
           this.state, "Username": this.username
       }).then((result) => {
         // Read result of the Cloud Function.
-        // /** @type {any} */
+        // /** @type {any} 
         console.log(result);
-        loader.hide();
+        //loader.hide();
         //this.get();
       });
       console.log("THIS WORKS 4");
-    },
+    }, */
 
     //   deleteComment(id){
     //     const functions = getFunctions(app);
