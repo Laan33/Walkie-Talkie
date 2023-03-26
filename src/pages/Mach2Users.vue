@@ -4,6 +4,16 @@
     <button type="button" @click="getCurrentUserId" class="btn btn-primary">Get User id</button>
     {{  userID }}
     </p>
+    <div >
+        <h1>records</h1>
+        <ul>
+            <li v-for ="record in tempMatch" >
+                <p>{{ "Name: "+record.data.uName }}</p>
+                <p>{{ "Pick Up Location:  "+record.data.uLocation }}</p>
+                <p>{{ "Drop off: "+record.data.uDestination }}</p>
+            </li>
+        </ul>
+    </div>
     
     <div class="container mt-5">
       <div class="mb-3">
@@ -37,7 +47,7 @@
         <button type="button" @click="postComment" class="btn btn-primary">Post Comment</button>
       </div>
       <div class="mb-3 right">
-        <button type="button" @click="matchData" class="btn btn-primary">get mach</button>
+        <button type="button" @click="uLocationCompare" class="btn btn-primary">get mach</button>
       </div>
       <div class="mb-3 right">
         <button type="button" @click="getComments" class="btn btn-primary">Show Comments</button>
@@ -72,13 +82,15 @@
 
   <script>
   import app from '../.api/firebase';
-  
+  //import firebase from "firebase/firestore";
+
   
   import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
   import {getAuth, onAuthStateChanged, signOut} from "firebase/auth";
   import {store} from '../store/store';
   import { collection } from "firebase/firestore";
   import { collectionGroup, query, where, getDocs } from "firebase/firestore";
+  
   export default {
     data() {
       return {
@@ -94,18 +106,29 @@
         user:null,
         userID: null,
         store,
+        matchingData: [],
+        tempMatch: [],
 
 
         match: []
       }
     },
-    created(){
+    mounted() {
   
-      //this.getComments();
-      this.matchData();
-      //window.setInterval(this.getComments, 1000);
+  // Retrieve records from the "matchinData" collection
+  // that have their uLocation set to "Galway"
+  
+},
+    created(){
+        this.getDataTest();
+        this.getComments();
+        // this.uLocationCompare();
+        
+
+
     },
-    methods : { // and look at this tooooooooooooooooo
+    
+    methods : { 
         postComment() {
             let loader = this.$loading.show({ // Optional parameters
             loader: 'dots',
@@ -124,6 +147,17 @@
             this.getComments();
             });
 },
+    uLocationCompare() {
+        this.tempMatch = [];
+        this.commentsArray.forEach(element => {
+        if (element.data.uLocation == this.uLocation) {
+            this.tempMatch.push(element);
+        }
+        });
+        console.log(this.tempMatch);
+        return this.tempMatch;
+           
+        },
       getComments() {
         let loader = this.$loading.show({    // Optional parameters
           loader: 'dots',
@@ -139,27 +173,26 @@
           this.commentsArray = result.data;
         });
       },
-      matchData(){
+      getDataTest() {
+        console.log("Function get data test");
+
         let loader = this.$loading.show({    // Optional parameters
           loader: 'dots',
           container: this.$refs.container,
           canCancel: true
         });
-        
         const functions = getFunctions(app);
         
         const getComments = httpsCallable(functions, 'getmatchingdata');
         getComments().then((result) => {
-          console.log("triggered");
           console.log(result.data);
           loader.hide();
-            if(result.data.uDestination == this.uDestination 
-            && result.data.uLocation == this.uLocation){
-                this.match = result.data.uName;
-                console.log(this.match);
-            }
-          
+          this.returnedData = result.data;
+
         });
+      },
+      matchData(){
+        
       },
       myChangeEvent(val){
             console.log(val);
@@ -231,6 +264,7 @@
             this.getComments();
         }); // To refresh the client
         },
+        
 
     }
   }

@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const cors = require('cors')({origin:true});
+
 admin.initializeApp();
 
 // // Create and Deploy Your First Cloud Functions
@@ -85,27 +86,6 @@ exports.getcomments = functions.https.onRequest((request, response) => {
     });
 });
 
-exports.postmatchingdata = functions.https.onCall((data, context) => {
-    // context.auth contains information about the user, if they are logged in etc.
-    const currentTime = admin.firestore.Timestamp.now();
-    data.timestamp = currentTime;
-    if(typeof context.auth === 'undefined')
-        {
-        // request is made from an anonymous user
-        return admin.firestore().collection('matchingData').add({data:
-        data}).then(() => {
-            return "Data saved in Firestore"
-        });
-    }
-        else
-        {
-            data.uid = context.auth.uid;
-            return admin.firestore().collection('matchingData').add({data:
-            data}).then(() => {
-                return "Data saved in Firestore"
-        });
-        }
-    });
 
 
 exports.getmatchingdata = functions.https.onRequest((request, response) => {
@@ -114,7 +94,7 @@ exports.getmatchingdata = functions.https.onRequest((request, response) => {
         // 1. Connect to our Firestore database
         console.log("The request made it in here");
         let myData = [];
-        return admin.firestore().collection('matchingData').orderBy('data.timestamp').get().then((snapshot) => {
+        return admin.firestore().collection('matchingData').orderBy('data.uLocation', "==", "Galway").get().then((snapshot) => {
 
             if (snapshot.empty) {
                 console.log('No matching documents.');
