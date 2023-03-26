@@ -34,7 +34,7 @@
     </div>
     <div class="mb-3 center">
       <label for="stateLocation">Origin Location</label>
-      <select name="state" v-model="state" id="state" :value="value" @change="e => $emit('input', e.target.value)">
+      <select name="state1" v-model="state1" id="state1" :value="value" @change="e => $emit('input', e.target.value)">
 
         <option value="DEFAULT" selected="selected">State</option>
         <option value="AL">Alabama</option>
@@ -47,14 +47,28 @@
 
 
     </div>
+
+    <div class="mb-3 center">
+      <label for="stateLocation">Destination Location</label>
+      <select name="state2" v-model="state2" id="state2" :value="value" @change="e => $emit('input', e.target.value)">
+
+        <option value="DEFAULT" selected="selected">State</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+      </select>
+
+
+    </div>
+
     <div class="mb-3 right">
       <button type="button" @click="postLocation" class="btn btn-primary">Post location</button>
     </div>
     <div class="mb-3 right">
       <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
-    </div>
-    <div class="mb-3 right">
-      <button type="button" @click="getMatchingUsernames" class="btn btn-primary">Show Matching USERNAMES</button>
     </div>
     <br><br>
 
@@ -165,33 +179,29 @@ export default {
 
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
       getMatchingUsers({
-        "location": this.state
+        "origin": this.state1,
+        "destination": this.state2
       }).then((result) => {
         console.log(result.data);
         //loader.hide();
         this.locationArray = result.data;
       });
     },
-    getMatchingUsernames() {
-      /* TO DO PUT LOADER BACK
-      let loader = this.$loading.show({    // Optional parameters
-        loader: 'dots',
-        container: this.$refs.container,
-        canCancel: true
-      }); */
+    postLocation() {
       const functions = getFunctions(app);
 
-      const getMatchingUsers = httpsCallable(functions, 'getmatchingusernames');
-      getMatchingUsers({
-        "location": this.state
+      console.log("Posting user location");
+      const postLocation = httpsCallable(functions, 'postuserlocation');
+      postLocation({
+        "handle": this.handle,
+        "origin": this.state1,
+        "destination": this.state2,
+        "username": this.username
       }).then((result) => {
-        console.log(result.data);
-        //loader.hide();
-        this.locationArray = result.data;
+        console.log(result);
       });
     },
-
-    postLocation() {
+    /* postLocation() {
       const functions = getFunctions(app);
 
       console.log("Posting user location");
@@ -203,7 +213,7 @@ export default {
       }).then((result) => {
         console.log(result);
       });
-    },
+    }, */
 
     /* 
 

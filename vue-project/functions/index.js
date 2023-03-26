@@ -45,10 +45,42 @@ exports.postcomment = functions.https.onRequest((request, response) => {
 exports.postuserlocation = functions.https.onCall((data, context) => {
     // context.auth contains information about the user, if they are logged in etc.
     const currentTime = admin.firestore.Timestamp.now();
+    const origin = data.origin;
+    const destination = data.destination;
+    delete data.origin; // remove location values from data object
+    delete data.destination;
+    data.timestamp = currentTime;
+
+    const originData = { origin }; // create separate object with origin value
+    const destinationData = { destination }; // create separate object with destination value
+    console.log("locationData: o - " + originData + " d - " + destinationData);
+    console.log("data: " + data);
+    if (typeof context.auth === 'undefined') {
+        // request is made from an anonymous user
+        return admin.firestore().collection('locations').add({ data, origin: originData, destination: destinationData }).then(() => {
+            return "Data saved in Firestore";
+        });
+    }
+    else {
+        data.uid = context.auth.uid;
+        return admin.firestore().collection('locations').add({
+            data,
+            origin: originData, 
+            destination: destinationDataa 
+        }).then(() => {
+            return "Data saved in Firestore";
+        });
+    }
+});
+
+/*
+exports.postuserlocation = functions.https.onCall((data, context) => {
+    // context.auth contains information about the user, if they are logged in etc.
+    const currentTime = admin.firestore.Timestamp.now();
     const location = data.location;
     delete data.location; // remove location value from data object
     data.timestamp = currentTime;
-    
+
     const locationData = { location }; // create separate object with location value
     console.log("locationData: " + locationData);
     console.log("data: " + data);
@@ -67,31 +99,6 @@ exports.postuserlocation = functions.https.onCall((data, context) => {
             return "Data saved in Firestore";
         });
     }
-});
-
-/*
-exports.postuserlocation = functions.https.onCall((data, context) => {
-    // context.auth contains information about the user, if they are logged in etc.
-    const currentTime = admin.firestore.Timestamp.now();
-    data.timestamp = currentTime;
-
-    if (typeof context.auth === 'undefined') {
-        // request is made from an anonymous user
-        return admin.firestore().collection('locations').add({ data: data }).then(() => {
-            return "Data saved in Firestore"
-        });
-    }
-    else {
-        data.uid = context.auth.uid;
-        return admin.firestore().collection('locations').add({
-            data:
-                data
-        }).then(() => {
-
-            return "Data saved in Firestore"
-        });
-    }
-
 }); */
 
 // look at this when back
@@ -119,244 +126,77 @@ exports.postusercomment = functions.https.onCall((data, context) => {
     }
 });
 
-// return the usernames of matching users, where their location in the location collection matches the current user's location
-exports.getmatchingusernames = functions.https.onRequest((request, response) => {
-    cors(request, response, async () => {
-        // 1. Connect to our Firestore database
-        console.log("The request made it in here");
-        let myData = [];
-        const querySnapshot = await locEntryRef.get();
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            myData.push(doc.data()); //adding doc data to the array
-        });
-        console.log(myData);
-        // 2. Send data back to client
-        return response.json({ data: myData });
-    });
-}); 
 
-/*
 exports.getmatchingusers = functions.https.onCall(async (currentUser, context) => {
-    // Allow CORS
-    console.log("LOOK AT ME NOW WOOOO");
-    
-    
-    console.log("current user loc: " + currentUser.location);
-
-    return cors()(context.req, context.res, async () => {
-        console.log(context.req + " context.req);" + context.res + " context.res);");
+    try {
+        console.log("LOOK AT ME NOW WOOOO");
+        console.log("current user location data: o- " + currentUser.origin + " d- " + currentUser.destination);
         const locationsRef = db.collection('locations');
-        const querySnapshot = await locationsRef.where('location', '==', currentUser.location).get();
+        //const querySnapshot = await locationsRef.where('loc.origin', '==', currentUser.origin).get();
+        const querySnapshot = await locationsRef.where('loc.origin', '==', currentUser.origin).where('loc.destination', '==', currentUser.destination).get();
+
         const matchingUsers = [];
 
-        querySnapshot.forEach((doc) => {
-            if (doc.exists) {
-                const location = doc.data();
-                if (location.uid !== currentUser.uid) {
-                    matchingUsers.push(location.username);
+        if (!querySnapshot.empty) {
+            querySnapshot.forEach((doc) => {
+                if (doc.exists) {
+                    const location = doc.data();
+                    console.log("location: o- ", location.loc.origin + " d- " + location.loc.destination + " username: " + location.data.username + " uid: " + location.data.uid + " current user uid & location: " + currentUser.uid + " , o- " + currentUser.origin + " , d- " + currentUser.destination);
+                    if (location.uid !== currentUser.uid) {
+                        matchingUsers.push(location.data.username);
+                    }
                 }
-            }
-        });
+                else {
+                    console.log('No such document!');
+                }
+            });
+        } else {
+            console.log('Query snapshot is empty.');
+        }
+
+        console.log("matching users: ", matchingUsers);
 
         return matchingUsers;
-    });
-}); */
+    } catch (error) {
+        console.error(error);
+        throw new functions.https.HttpsError('internal', 'Unable to get matching users.');
+    }
+});
 
 exports.getmatchingusers = functions.https.onCall(async (currentUser, context) => {
     try {
         console.log("LOOK AT ME NOW WOOOO");
         console.log("current user loc: " + currentUser.location);
-      const locationsRef = db.collection('locations');
-      const querySnapshot = await locationsRef.where('loc.location', '==', currentUser.location).get();
-      const matchingUsers = [];
-    
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach((doc) => {
-            console.log("doc: " + doc + " \nWE HAVE LIFTOFF?");
-          if (doc.exists) {
-            const theDATA = doc.data();
-            console.log("location: ", theDATA.loc.location + " username: " + theDATA.data.username + " uid: " + theDATA.data.uid + " current user uid & location: " + currentUser.uid + " , " + currentUser.location);
-            //if (theDATA.uid !== currentUser.uid) {
-              matchingUsers.push(theDATA.data.username, theDATA.data.uid);
-            //}
-          }
-          else {
-            console.log('No such document!');
-          }
-        });
-      } else {
-        console.log('Query snapshot is empty.');
+        const locationsRef = db.collection('locations');
+        const querySnapshot = await locationsRef.where('loc.location', '==', currentUser.location).get();
+        const matchingUsers = [];
+
+        if (!querySnapshot.empty) {
+            querySnapshot.forEach((doc) => {
+                if (doc.exists) {
+                    const location = doc.data();
+                    console.log("location: ", location.loc.location + " username: " + location.data.username + " uid: " + location.data.uid + " current user uid & location: " + currentUser.uid + " , " + currentUser.location);
+                    if (theDATA.uid !== currentUser.uid) {
+                        matchingUsers.push(location.data.username, location.data.uid);
+                    }
+                }
+                else {
+                    console.log('No such document!');
+                }
+            });
+        } else {
+            console.log('Query snapshot is empty.');
         }
-    
-      console.log("matching users: ", matchingUsers);
-    
-      return matchingUsers;
+
+        console.log("matching users: ", matchingUsers);
+
+        return matchingUsers;
     } catch (error) {
-      console.error(error);
-      throw new functions.https.HttpsError('internal', 'Unable to get matching users.');
+        console.error(error);
+        throw new functions.https.HttpsError('internal', 'Unable to get matching users.');
     }
-  });
-
-  /*
-
-exports.getmatchingusers = functions.https.onCall(async (currentUser, context) => {
-    console.log("LOOK AT ME NOW WOOOO");
-    console.log("current user loc: " + currentUser.location);
-    //console.log("context: ", context);
-    
-  
-    const locationsRef = db.collection('locations');
-    const querySnapshot = await locationsRef.where('location', '==', currentUser.location).get();
-    const matchingUsers = [];
-  
-    querySnapshot.forEach((doc) => {
-      if (doc.exists) {
-        const location = doc.data();
-        if (location.uid !== currentUser.uid) {
-          matchingUsers.push(location.username, location.uid);
-        }
-      }
-    });
-  
-    console.log("matching users: ", matchingUsers);
-  
-    return matchingUsers;
-  }); */
-
-/* 
-exports.getmatchingusers = functions.https.onCall(async (currentUser, context) => {
-    // Allow CORS
-    console.log(context.req + " context.req);" + context.res + " context.res);");
-    console.log("context: " + context);
-    console.log("current user loc" + currentUser.location);
-    
-    cors(context.req, context.res, async () => {
-      const locationsRef = db.collection('locations');
-      const querySnapshot = await locationsRef.where('location', '==', currentUser.location).get();
-      const matchingUsers = [];
-  
-      querySnapshot.forEach((doc) => {
-        if (doc.exists) {
-          const location = doc.data();
-          if (location.uid !== currentUser.uid) {
-            matchingUsers.push(location.username);
-          }
-        }
-      });
-  
-      return matchingUsers;
-    });
-  }); */
-
-
-// return the usernames of matching users, where their location in the location collection matches the current user's location
-// where the location field is the same as the current user's location field do this with a where clause in the query 
-//make the function a callable function
-
-
-
-
-
-
-
-
-/*
-exports.getmatchinguserlocations = functions.https.onRequest((request, response) => {
-    cors(request, response, async () => {
-        // 1. Connect to our Firestore database
-        console.log("The request made it in here"); 
-        let myData = [];
-        const querySnapshot = await locEntryRef.get();
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            myData.push(doc.data()); //adding doc data to the array
-        });
-        console.log(myData);
-        // 2. Send data back to client
-        return response.json({ data: myData });
-    });
-}); */
-
-/*
-exports.getmatchingusers = functions.https.onRequest((request, response) => {
-
-    cors(request, response, async () => {
-        // 1. Connect to our Firestore database
-        console.log("The request made it in here");
-        let myData = [];
-
-
-        const stateQuery = query(locEntryRef, where("state", "==", "CA"));
-
-        const querySnapshot = await getDocs(stateQuery);
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-            myData.push(doc.data()); //adding doc data to the array
-        });
-
-        
-            console.log(myData);
-
-            // 2. Send data back to client
-            return response.json({ data: myData });
-       
-    });
-}); 
-exports.getMatchingUsers = functions.https.onCall(async (currentUser) => {
-    const locationsRef = db.collection('locations');
-    const querySnapshot = await locationsRef.where('location', '==', currentUser.location).get();
-    const matchingUsers = [];
-  
-    querySnapshot.forEach((doc) => {
-      if (doc.exists) {
-        const location = doc.data();
-        if (location.uid !== currentUser.uid) {
-          matchingUsers.push(location.username);
-        }
-      }
-    });
-  
-    return matchingUsers;
 });
 
-//exports.getCurrentUserId = functions.https.onCall(async (data, context) => {
-exports.getMatchingUsers = functions.https.onCall(async (currentUser, context, response) => {
-    // Allow CORS
-    cors(currentUser, context, async () => {
-      const locationsRef = db.collection('locations');
-      const querySnapshot = await locationsRef.where('location', '==', currentUser.location).get();
-      const matchingUsers = [];
-  
-      querySnapshot.forEach((doc) => {
-        if (doc.exists) {
-          const location = doc.data();
-          if (location.uid !== currentUser.uid) {
-            matchingUsers.push(location.username);
-          }
-        }
-      });
-  
-      return response.json(matchingUsers);
-    });
-  });*/
-
-/*
-        return admin.firestore().collection('locations').orderBy('data.timestamp').get().then((snapshot) => {
-
-            if (snapshot.empty) {
-                console.log('No matching documents.');
-                response.json({ data: { message: 'No data in database' } });
-                return;
-            }
-
-            snapshot.forEach(doc => {
-                console.log(doc.id);
-                myData.push(Object.assign(doc.data(), { id: doc.id }));
-            });  //});*/
 
 
 exports.getcomments = functions.https.onRequest((request, response) => {
