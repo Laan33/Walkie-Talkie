@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-*.cache
 
 node_modules
 .DS_Store
@@ -17,9 +16,6 @@ coverage
 
 *.json
 
-/.firebase/
-.firebase/
-/.firebase/
 /public/
 .firebaserc
 firebase.json

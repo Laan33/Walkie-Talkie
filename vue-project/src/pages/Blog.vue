@@ -4,8 +4,7 @@
   <div class="container mt-5">
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Email address</label>
-      <input type="email" class="form-control" v-model="handle" id="exampleFormControlInput1"
-        placeholder="name@example.com">
+      <input type="email" class="form-control" v-model="handle" id="exampleFormControlInput1" placeholder="name@example.com">
     </div>
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">Comment</label>
@@ -20,22 +19,22 @@
     <!-- Checks to make sure there are actual comments to display -->
     <div v-if="commentsArray.length > 0">
       <ul>
-        <li v-for="comment in commentsArray">
-          <div v-if="!editing">
-            <span @click="enableEditing(comment.data.comment)">
-              {{ comment.data.comment }}</span>
-          </div>
+      <li v-for="comment in commentsArray">
+        <div v-if="!editing">
+          <span @click="enableEditing(comment.data.comment)">
+            {{comment.data.comment}}</span>
+        </div>
 
-          <div v-if="editing">
-            <input v-model="tempValue" class="input" />
-            <button @click="disableEditing"> Cancel </button>
-            <button @click="save(comment.id)"> Save </button>
-          </div>
+        <div v-if="editing">
+          <input v-model="tempValue" class="input"/>
+          <button @click="disableEditing"> Cancel </button>
+          <button @click="save(comment.id)"> Save </button>
+        </div>
 
-          <button type="button" @click="deleteComment(comment.id)" class="btn btn-primary">Delete Comment</button>
-          <button type="button" @click="getUserId(currentUserID)" class="btn btn-primary">Get User id</button>
+           <button type="button" @click="deleteComment(comment.id)" class="btn btn-primary">Delete Comment</button>
+           <button type="button" @click="getUserId(currentUserID)" class="btn btn-primary">Get User id</button>
 
-        </li>
+      </li>
       </ul>
     </div>
   </div>
@@ -48,18 +47,18 @@ export default {
     return {
       handle: '',
       comment: '',
-      commentsArray: [],
-      editing: false,
-      tempValue: null,
-      currentUserID: '',
+      commentsArray:[],
+      editing:false,
+      tempValue:null,
+      currentUserID:'',
     }
   },
-  created() {
+  created(){
 
     this.getComments();
     //window.setInterval(this.getComments, 1000);
   },
-  methods: {
+  methods : {
     postComment() {
       let loader = this.$loading.show({    // Optional parameters
         loader: 'dots',
@@ -69,9 +68,9 @@ export default {
       const functions = getFunctions(app);
       // Uncomment this code if your local emulators are running and you wish to test locally
       //if(window.location.hostname === 'localhost') // Checks if working locally
-      //connectFunctionsEmulator(functions, "localhost", 5001);
+        //connectFunctionsEmulator(functions, "localhost", 5001);
       const postComment = httpsCallable(functions, 'postcomment');
-      postComment({ "handle": this.handle, "comment": this.comment }).then((result) => {
+      postComment({"handle": this.handle, "comment": this.comment}).then((result) => {
         // Read result of the Cloud Function.
         // /** @type {any} */
         loader.hide();
@@ -97,22 +96,22 @@ export default {
         this.commentsArray = result.data;
       });
     },
-    deleteComment(id) {
+    deleteComment(id){
       const functions = getFunctions(app);
       // Uncomment this section if your local emulators are running and you wish to test locally
       //if(window.location.hostname === 'localhost') // Checks if working locally
       //connectFunctionsEmulator(functions, "localhost", 5001);
-      const deleteComment = httpsCallable(functions, 'deletecomment?id=' + id);
+      const deleteComment = httpsCallable(functions, 'deletecomment?id='+id);
       deleteComment().then((result) => {
-        if (result.data == "Document successfully deleted")
+        if(result.data == "Document successfully deleted")
           this.getComments();
       }); // To refresh the client
     },
-    enableEditing(comment) {
+    enableEditing(comment){
       this.tempValue = comment;
       this.editing = true;
-    },
-    disableEditing() {
+      },
+    disableEditing(){
       this.tempValue = null;
       this.editing = false;
     },
@@ -124,29 +123,28 @@ export default {
       const updateComment = httpsCallable(functions, 'updatecomment?id=' + id);
       // Data field automatically populated by Firebase client lib
       // JSON that will arrive at the server will be { data : {comment : "text from input"} }
-      updateComment({ comment: this.tempValue }).then((result) => {
+      updateComment({ comment : this.tempValue }).then((result) => {
         this.getComments();
         this.editing = false;
       });
     },
-    getCurrentUserId() {
+    getCurrentUserId(){
       const functions = getFunctions(app);
       const getUserId = httpsCallable(functions, 'getCurrentUserId');
       getUserId().then((result) => {
         console.log(result.data);
         loader.hide();
         this.currentUserID = result.data;
-      });
+      }); 
     }
   }
 }
 </script>
 <style scoped>
-.right {
+.right{
   text-align: right;
 }
-
-* {
+*{
   padding-left: 10%;
 }
 </style>

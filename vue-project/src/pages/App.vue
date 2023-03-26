@@ -53,6 +53,9 @@
     <div class="mb-3 right">
       <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
     </div>
+    <div class="mb-3 right">
+      <button type="button" @click="getMatchingUsernames" class="btn btn-primary">Show Matching USERNAMES</button>
+    </div>
     <br><br>
 
 
@@ -161,6 +164,24 @@ export default {
       const functions = getFunctions(app);
 
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
+      getMatchingUsers({
+        "location": this.state
+      }).then((result) => {
+        console.log(result.data);
+        loader.hide();
+        this.locationArray = result.data;
+      });
+    },
+    getMatchingUsernames() {
+      /* TO DO PUT LOADER BACK
+      let loader = this.$loading.show({    // Optional parameters
+        loader: 'dots',
+        container: this.$refs.container,
+        canCancel: true
+      }); */
+      const functions = getFunctions(app);
+
+      const getMatchingUsers = httpsCallable(functions, 'getmatchingusernames');
       getMatchingUsers({
         "location": this.state
       }).then((result) => {

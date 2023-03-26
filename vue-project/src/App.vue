@@ -14,6 +14,7 @@ import Sidebar from '@/components/Sidebar.vue'
 </style> -->
 
 
+
 <template>
 	<div class="app">
 		
@@ -26,7 +27,6 @@ import Sidebar from '@/components/Sidebar.vue'
 
 <script setup>
 import Sidebar from '@/components/Sidebar.vue'
-
 </script>
 
 
@@ -40,7 +40,6 @@ import Sidebar from '@/components/Sidebar.vue'
 	--light: #f1f5f9;
 	--sidebar-width: 300px;
 }
-
 * {
   
 	margin: 0;
@@ -48,11 +47,9 @@ import Sidebar from '@/components/Sidebar.vue'
 	box-sizing: border-box;
 	font-family: 'Fira sans', sans-serif;
 }
-
 body {
 	background: var(--light);
 }
-
 button {
 	cursor: pointer;
 	appearance: none;
@@ -60,14 +57,11 @@ button {
 	outline: none;
 	background: none;
 }
-
 .app {
 	display: flex;
-
 	main {
 		flex: 1 1 0;
 		padding: 2rem;
-
 		@media (max-width: 1024px) {
 			padding-left: 6rem;
 		}
