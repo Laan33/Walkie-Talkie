@@ -8,6 +8,7 @@
         <h1>records</h1>
         <ul>
             <li v-for ="record in tempMatch" >
+                <br>
                 <p>{{ "Name: "+record.data.uName }}</p>
                 <p>{{ "Pick Up Location:  "+record.data.uLocation }}</p>
                 <p>{{ "Drop off: "+record.data.uDestination }}</p>
@@ -82,14 +83,13 @@
 
   <script>
   import app from '../.api/firebase';
-  //import firebase from "firebase/firestore";
 
   
   import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
   import {getAuth, onAuthStateChanged, signOut} from "firebase/auth";
   import {store} from '../store/store';
-  import { collection } from "firebase/firestore";
-  import { collectionGroup, query, where, getDocs } from "firebase/firestore";
+  //import { collection } from "firebase/firestore";
+  //import { collectionGroup, query, where, getDocs } from "firebase/firestore";
   
   export default {
     data() {
@@ -115,13 +115,11 @@
     },
     mounted() {
   
-  // Retrieve records from the "matchinData" collection
-  // that have their uLocation set to "Galway"
   
 },
     created(){
-        this.getDataTest();
-        this.getComments();
+       
+        //this.getComments();
         // this.uLocationCompare();
         
 
@@ -148,7 +146,7 @@
             });
 },
     uLocationCompare() {
-        this.tempMatch = [];
+        
         this.commentsArray.forEach(element => {
         if (element.data.uLocation == this.uLocation) {
             this.tempMatch.push(element);
@@ -158,6 +156,7 @@
         return this.tempMatch;
            
         },
+
       getComments() {
         let loader = this.$loading.show({    // Optional parameters
           loader: 'dots',
@@ -173,27 +172,7 @@
           this.commentsArray = result.data;
         });
       },
-      getDataTest() {
-        console.log("Function get data test");
-
-        let loader = this.$loading.show({    // Optional parameters
-          loader: 'dots',
-          container: this.$refs.container,
-          canCancel: true
-        });
-        const functions = getFunctions(app);
-        
-        const getComments = httpsCallable(functions, 'getmatchingdata');
-        getComments().then((result) => {
-          console.log(result.data);
-          loader.hide();
-          this.returnedData = result.data;
-
-        });
-      },
-      matchData(){
-        
-      },
+      
       myChangeEvent(val){
             console.log(val);
         },
