@@ -169,12 +169,22 @@ export default {
     },
     //getMatchingUsers
     getMatchingUsers() {
-      /* TO DO PUT LOADER BACK
-      let loader = this.$loading.show({    // Optional parameters
-        loader: 'dots',
-        container: this.$refs.container,
-        canCancel: true
-      }); */
+      
+      const functions = getFunctions(app);
+      const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
+      getMatchingUsers({
+        "uid": this.userID,
+        "origin": this.state1,
+        "destination": this.state2
+      }).then((result) => {
+        console.log(result.data);
+        //loader.hide();
+        this.locationArray = result.data;
+      });
+    },
+    /*
+    getMatchingUsers() {
+      
       const functions = getFunctions(app);
 
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
@@ -186,7 +196,8 @@ export default {
         //loader.hide();
         this.locationArray = result.data;
       });
-    },
+    }, */
+    /*
     postLocation() {
       const functions = getFunctions(app);
 
@@ -200,20 +211,22 @@ export default {
       }).then((result) => {
         console.log(result);
       });
-    },
-    /* postLocation() {
+    }, */
+     postLocation() {
       const functions = getFunctions(app);
 
       console.log("Posting user location");
+      console.log(this.state1);
       const postLocation = httpsCallable(functions, 'postuserlocation');
       postLocation({
         "handle": this.handle,
-        "location": this.state,
+        "origin": this.state1,
+        "destination": this.state2,
         "username": this.username
       }).then((result) => {
         console.log(result);
       });
-    }, */
+    }, 
 
     /* 
 
@@ -289,7 +302,7 @@ export default {
           // User is signed in
         } else {
           console.log("No user found")
-          // User is not signed in
+          // User is not signed in 
         }
       });
       this.getComments();
