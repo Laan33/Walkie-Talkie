@@ -3,9 +3,8 @@ const admin = require('firebase-admin');
 const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
-//const { collection, query, where } = require("firebase/firestore");
 const db = admin.firestore();
-const locEntryRef = db.collection("locations");
+
 
 
 
@@ -41,37 +40,6 @@ exports.postcomment = functions.https.onRequest((request, response) => {
         });
     });
 });
-/*
-exports.postuserlocation = functions.https.onCall((data, context) => {
-    // context.auth contains information about the user, if they are logged in etc.
-    const currentTime = admin.firestore.Timestamp.now();
-    const origin = data.origin;
-    const destination = data.destination;
-    delete data.origin; // remove location values from data object
-    delete data.destination;
-    data.timestamp = currentTime;
-
-    const originData = { origin }; // create separate object with origin value
-    const destinationData = { destination }; // create separate object with destination value
-    console.log("locationData: o - " + originData.origin + " d - " + destinationData.destination);
-    console.log("data: " + data);
-    if (typeof context.auth === 'undefined') {
-        // request is made from an anonymous user
-        return admin.firestore().collection('locations').add({ data, origin: originData, destination: destinationData }).then(() => {
-            return "Data saved in Firestore";
-        });
-    }
-    else {
-        data.uid = context.auth.uid;
-        return admin.firestore().collection('locations').add({
-            data,
-            origin: originData, 
-            destination: destinationData 
-        }).then(() => {
-            return "Data saved in Firestore";
-        });
-    }
-}); */
 
 exports.postuserlocation = functions.https.onCall((data, context) => {
     // context.auth contains information about the user, if they are logged in etc.
@@ -81,8 +49,8 @@ exports.postuserlocation = functions.https.onCall((data, context) => {
     delete data.origin; // remove location value from data object
     delete data.destination;
     data.timestamp = currentTime;
-    
-    const locationData = { locOrigin, locDestination}; // create separate object with location value
+
+    const locationData = { locOrigin, locDestination }; // create separate object with location value
     console.log("locationData: " + locationData);
     console.log("data: " + data);
     if (typeof context.auth === 'undefined') {
@@ -129,43 +97,6 @@ exports.postusercomment = functions.https.onCall((data, context) => {
 });
 
 
-/*
-exports.getmatchingusers = functions.https.onCall(async (currentUser, context) => {
-    try {
-        console.log("LOOK AT ME NOW WOOOO");
-        console.log("current user location data: o- " + currentUser.origin + " d- " + currentUser.destination);
-        const locationsRef = db.collection('locations');
-        //const querySnapshot = await locationsRef.where('loc.origin', '==', currentUser.origin).get();
-        const querySnapshot = await locationsRef.where('origin.origin', '==', currentUser.origin).where('origin.destination', '==', currentUser.destination).get();
-        const querySnapshot2 = await locationsRef.where('origin.origin', '==', currentUser.origin).get();
-
-        const matchingUsers = [];
-
-        if (!querySnapshot2.empty) {
-            querySnapshot2.forEach((doc) => {
-                if (doc.exists) {
-                    const location = doc.data();
-                    console.log("location: o- ", location.origin.origin + " d- " + location.destination.destination + " username: " + location.data.username + " uid: " + location.data.uid + " current user uid & location: " + currentUser.uid + " , o- " + currentUser.origin + " , d- " + currentUser.destination);
-                    //if (location.uid !== currentUser.uid) {
-                        matchingUsers.push(location.data.username);
-                    //}
-                }
-                else {
-                    console.log('No such document!');
-                }
-            });
-        } else {
-            console.log('Query snapshot is empty.');
-        }
-
-        console.log("matching users: ", matchingUsers);
-
-        return matchingUsers;
-    } catch (error) {
-        console.error(error);
-        throw new functions.https.HttpsError('internal', 'Unable to get matching users.');
-    }
-}); */
 
 
 exports.getmatchingusers = functions.https.onCall(async (currentUser) => {
@@ -173,19 +104,19 @@ exports.getmatchingusers = functions.https.onCall(async (currentUser) => {
         console.log("LOOK AT ME NOW WOOOO");
         console.log("current user loc: " + currentUser.origin + " , " + currentUser.destination + " uid: " + currentUser.uid);
         const locationsRef = db.collection('locations');
-        //const querySnapshot = await locationsRef.where('loc.location', '==', currentUser.location).get();
         const querySnapshot2 = await locationsRef.where('loc.locOrigin', '==', currentUser.origin).where('loc.locDestination', '==', currentUser.destination).get();
-        //.where('loc.locDestination', '==', currentUser.destination)
         const matchingUsers = [];
 
         if (!querySnapshot2.empty) {
             querySnapshot2.forEach((doc) => {
                 if (doc.exists) {
                     const location = doc.data();
-                    console.log("location: ", location.loc.location + " username: " + location.data.username + " uid: " + location.data.uid + " current user uid & location: " + currentUser.uid + " , " + currentUser.location);
-                    //if (location.uid !== currentUser.uid) {
-                        matchingUsers.push(location.data.username, location.data.uid);
-                    //}
+                    console.log("location: ", location.loc.locOrigin + " " + location.loc.locDestination + " username: " + location.data.username
+                        + " uid: " + location.data.uid + " current user uid & location: " + currentUser.uid + " , " + currentUser.origin + " , " + currentUser.destination);
+
+                    if (location.data.uid !== currentUser.uid) {
+                        matchingUsers.push(location.data.username, location.loc.locDestination, location.loc.locOrigin);
+                    }
                 }
                 else {
                     console.log('No such document!');
@@ -202,7 +133,7 @@ exports.getmatchingusers = functions.https.onCall(async (currentUser) => {
         console.error(error);
         throw new functions.https.HttpsError('internal', 'Unable to get matching users.');
     }
-}); 
+});
 
 
 

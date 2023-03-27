@@ -29,8 +29,7 @@
     <br><br>
     <div class="mb-3 center">
       <label for="exampleUsernameInput1" class="form-label">Username</label>
-      <input type="username" class="form-control" v-model="username" id="exampleUsernameInput1"
-        placeholder="Username">
+      <input type="username" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
     </div>
     <div class="mb-3 center">
       <label for="stateLocation">Origin Location</label>
@@ -131,15 +130,7 @@ export default {
   },
   methods: { // and look at this tooooooooooooooooo
     postComment() {
-      /* TO DO PUT LOADER BACK 
-      let loader = this.$loading.show({ // Optional parameters
-        loader: 'dots',
-        container: this.$refs.container,
-        canCancel: true
-      });*/
       const functions = getFunctions(app);
-
-
       const postComment = httpsCallable(functions, 'postusercomment');
       postComment({
         "handle": this.handle, "comment":
@@ -167,52 +158,27 @@ export default {
         this.commentsArray = result.data;
       });
     },
-    //getMatchingUsers
-    getMatchingUsers() {
-      
+
+    async getMatchingUsers() {
       const functions = getFunctions(app);
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
-      getMatchingUsers({
-        "uid": this.userID,
-        "origin": this.state1,
-        "destination": this.state2
-      }).then((result) => {
-        console.log(result.data);
-        //loader.hide();
-        this.locationArray = result.data;
-      });
+      try {
+        const uid = await this.getCurrentUserId(); // Wait for the promise to resolve
+        console.log("UID: " + uid);
+        getMatchingUsers({
+          "uid": uid,
+          "origin": this.state1,
+          "destination": this.state2
+        }).then((result) => {
+          console.log(result.data);
+          //loader.hide();
+          this.locationArray = result.data;
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
-    /*
-    getMatchingUsers() {
-      
-      const functions = getFunctions(app);
-
-      const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
-      getMatchingUsers({
-        "origin": this.state1,
-        "destination": this.state2
-      }).then((result) => {
-        console.log(result.data);
-        //loader.hide();
-        this.locationArray = result.data;
-      });
-    }, */
-    /*
     postLocation() {
-      const functions = getFunctions(app);
-
-      console.log("Posting user location");
-      const postLocation = httpsCallable(functions, 'postuserlocation');
-      postLocation({
-        "handle": this.handle,
-        "origin": this.state1,
-        "destination": this.state2,
-        "username": this.username
-      }).then((result) => {
-        console.log(result);
-      });
-    }, */
-     postLocation() {
       const functions = getFunctions(app);
 
       console.log("Posting user location");
@@ -226,38 +192,7 @@ export default {
       }).then((result) => {
         console.log(result);
       });
-    }, 
-
-    /* 
-
-    postLocation() {
-      //var userLoc = this.state;
-      const functions = getFunctions(app);
-
-      console.log("Posting user location");
-      const postLocation = httpsCallable(functions, 'postuserlocation');
-      postLocation({
-        "handle": this.handle, "location":
-          this.state, "Username": this.username
-      }).then((result) => {
-        // Read result of the Cloud Function.
-        // /** @type {any} 
-        console.log(result);
-        //loader.hide();
-        //this.get();
-      });
-      console.log("THIS WORKS 4");
-    }, */
-
-    //   deleteComment(id){
-    //     const functions = getFunctions(app);
-
-    //     const deleteComment = httpsCallable(functions, 'deletecomment?id='+id);
-    //     deleteComment().then((result) => {
-    //       if(result.data == "Document successfully deleted")
-    //         this.getComments();
-    //     }); 
-    //   },
+    },
     enableEditing(comment) {
       this.tempValue = comment;
       this.editing = true;
@@ -277,21 +212,36 @@ export default {
     },
 
     getCurrentUserId() {
-      // Check for logged in user
       const auth = getAuth(app);
-      onAuthStateChanged(auth, (user) => {
-        this.user = user; // set the user object to the user prop
-        if (user) {
-          console.log("User", user.uid);
-          this.userID = user.uid;
-          // User is signed in
-        } else {
-          console.log("No user found")
-          // User is not signed in
-
-        }
+      return new Promise((resolve, reject) => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            console.log("User", user.uid);
+            resolve(user.uid);
+          } else {
+            console.log("No user found")
+            reject(new Error("User not found"));
+          }
+        });
       });
     },
+    /*
+        getCurrentUserId() {
+          // Check for logged in user
+          const auth = getAuth(app);
+          onAuthStateChanged(auth, (user) => {
+            this.user = user; // set the user object to the user prop
+            if (user) {
+              console.log("User", user.uid);
+              this.userID = user.uid;
+              // User is signed in
+            } else {
+              console.log("No user found")
+              // User is not signed in
+    
+            }
+          });
+        }, */
     created() {
       // Check for logged in user
       const auth = getAuth(app);
