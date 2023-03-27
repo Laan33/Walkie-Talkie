@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router';
 import routes from './router/routes'
-import {LoadingPlugin} from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
+//import {LoadingPlugin} from 'vue-loading-overlay';
+//import 'vue-loading-overlay/dist/css/index.css';
 
 let router = createRouter({
     history: createWebHistory(),
@@ -12,5 +12,5 @@ let router = createRouter({
 
 const app = createApp(App)
 app.use(router);
-app.use(LoadingPlugin);
+//app.use(LoadingPlugin);
 app.mount('#app');
