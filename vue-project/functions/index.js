@@ -66,7 +66,7 @@ exports.postuserlocation = functions.https.onCall((data, context) => {
         return admin.firestore().collection('locations').add({
             data,
             origin: originData, 
-            destination: destinationDataa 
+            destination: destinationData 
         }).then(() => {
             return "Data saved in Firestore";
         });
@@ -163,10 +163,11 @@ exports.getmatchingusers = functions.https.onCall(async (currentUser, context) =
     }
 });
 
+/* 
 exports.getmatchingusers = functions.https.onCall(async (currentUser, context) => {
     try {
         console.log("LOOK AT ME NOW WOOOO");
-        console.log("current user loc: " + currentUser.location);
+        console.log("current user loc: " + currentUser.origin + " , " + currentUser.destination);
         const locationsRef = db.collection('locations');
         const querySnapshot = await locationsRef.where('loc.location', '==', currentUser.location).get();
         const matchingUsers = [];
@@ -195,7 +196,7 @@ exports.getmatchingusers = functions.https.onCall(async (currentUser, context) =
         console.error(error);
         throw new functions.https.HttpsError('internal', 'Unable to get matching users.');
     }
-});
+}); */
 
 
 
