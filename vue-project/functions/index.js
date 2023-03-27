@@ -48,14 +48,14 @@ exports.postuserlocation = functions.https.onCall((data, context) => {
     const locDestination = data.destination;
     delete data.origin; // remove location value from data object
     delete data.destination;
-    data.timestamp = currentTime;
+    //data.timestamp = currentTime;
 
     const locationData = { locOrigin, locDestination }; // create separate object with location value
-    console.log("locationData: " + locationData);
+    console.log("locationData: " + locationData + " timestamp: " + currentTime);
     console.log("data: " + data);
     if (typeof context.auth === 'undefined') {
         // request is made from an anonymous user
-        return admin.firestore().collection('locations').add({ data, loc: locationData }).then(() => {
+        return admin.firestore().collection('locations').add({ data, loc: locationData, time: currentTime }).then(() => {
             return "Data saved in Firestore";
         });
     }
@@ -63,7 +63,8 @@ exports.postuserlocation = functions.https.onCall((data, context) => {
         data.uid = context.auth.uid;
         return admin.firestore().collection('locations').add({
             data,
-            loc: locationData
+            loc: locationData,
+            timestamp: currentTime
         }).then(() => {
             return "Data saved in Firestore";
         });
@@ -104,7 +105,13 @@ exports.getmatchingusers = functions.https.onCall(async (currentUser) => {
         console.log("LOOK AT ME NOW WOOOO");
         console.log("current user loc: " + currentUser.origin + " , " + currentUser.destination + " uid: " + currentUser.uid);
         const locationsRef = db.collection('locations');
-        const querySnapshot2 = await locationsRef.where('loc.locOrigin', '==', currentUser.origin).where('loc.locDestination', '==', currentUser.destination).get();
+        const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000); // Get the timestamp for 30 minutes ago
+
+        const querySnapshot2 = await locationsRef
+            .where('loc.locOrigin', '==', currentUser.origin)
+            .where('loc.locDestination', '==', currentUser.destination)
+            .where('timestamp', '>=', thirtyMinutesAgo)
+            .get();
         const matchingUsers = [];
 
         if (!querySnapshot2.empty) {
@@ -115,7 +122,7 @@ exports.getmatchingusers = functions.https.onCall(async (currentUser) => {
                         + " uid: " + location.data.uid + " current user uid & location: " + currentUser.uid + " , " + currentUser.origin + " , " + currentUser.destination);
 
                     if (location.data.uid !== currentUser.uid) {
-                        matchingUsers.push(location.data.username, location.loc.locDestination, location.loc.locOrigin);
+                        matchingUsers.push("Username: " + location.data.username, "Origin: " + location.loc.locOrigin, "Destination: " + location.loc.locDestination);
                     }
                 }
                 else {

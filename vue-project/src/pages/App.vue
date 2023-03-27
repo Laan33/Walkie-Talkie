@@ -138,23 +138,16 @@ export default {
       }).then((result) => {
         // Read result of the Cloud Function.
         // /** @type {any} */
-        //loader.hide();
         this.getComments();
       });
     },
-    getComments() {
-      /* TO DO PUT LOADER BACK 
-      let loader = this.$loading.show({    // Optional parameters
-        loader: 'dots',
-        container: this.$refs.container,
-        canCancel: true
-      });*/
+    getComments() {      
       const functions = getFunctions(app);
 
       const getComments = httpsCallable(functions, 'getcomments');
       getComments().then((result) => {
         console.log(result.data);
-        //loader.hide();
+       
         this.commentsArray = result.data;
       });
     },
@@ -185,10 +178,9 @@ export default {
       console.log(this.state1);
       const postLocation = httpsCallable(functions, 'postuserlocation');
       postLocation({
-        "handle": this.handle,
+        "username": this.username,
         "origin": this.state1,
-        "destination": this.state2,
-        "username": this.username
+        "destination": this.state2,        
       }).then((result) => {
         console.log(result);
       });
@@ -225,23 +217,7 @@ export default {
         });
       });
     },
-    /*
-        getCurrentUserId() {
-          // Check for logged in user
-          const auth = getAuth(app);
-          onAuthStateChanged(auth, (user) => {
-            this.user = user; // set the user object to the user prop
-            if (user) {
-              console.log("User", user.uid);
-              this.userID = user.uid;
-              // User is signed in
-            } else {
-              console.log("No user found")
-              // User is not signed in
     
-            }
-          });
-        }, */
     created() {
       // Check for logged in user
       const auth = getAuth(app);
