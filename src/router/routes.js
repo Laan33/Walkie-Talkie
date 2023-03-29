@@ -25,7 +25,7 @@ function loadPage (component) {
 export default [
     { path: '/', component: loadPage('Home') },
     { path: '/blog', component: loadPage('Blog') },
-    { path: '/registration', component: loadPage('Registration') },
+    { path: '/registration', component: loadPage('Register') },
     { path: '/login', component: loadPage('Login') },
     { path: '/secure', component: loadPage('Secure')},
     { path: '/app', component: loadPage('App')}

@@ -1,5 +1,6 @@
+
 <script setup>
-import HelloWorld from '../components/HelloWorld.vue'
+import HelloWorld from '../components/HelloWorld.vue';
 </script>
 
 <template>
@@ -14,3 +15,4 @@ import HelloWorld from '../components/HelloWorld.vue'
 
 
 </style>
+>>>>>>> Stashed changes:src/pages/Home.vue
