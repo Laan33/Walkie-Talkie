@@ -32,7 +32,7 @@
     </div>
 
     <div>
-      <MapComponent />
+      <MapComponent :map1="state1" :map2="state2" />
     </div>
 
   </div>
@@ -70,8 +70,8 @@ export default {
       state1,
       state2,
       postUserLocation,
-      // map1: "state1",
-      // map2: "state2"
+      map1: "state1",
+      map2: "state2"
     };
   },
 
