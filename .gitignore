@@ -39,3 +39,5 @@ vite.config.js
 *.njsproj
 *.sln
 *.sw?
+vue-project/src/.api/firebase.js
+vue-project/public/favicon.ico
