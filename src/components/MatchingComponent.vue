@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import app from '../.api/firebase';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 export default {
@@ -47,15 +48,20 @@ export default {
       }
     }, */
     async getMatchingUsers() {
+      console.log("Hello1wworld");
+      console.log(this.app);
       const functions = getFunctions(app);
+      console.log(functions)
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
       try {
         //const uid = await this.getCurrentUserId(); // Wait for the promise to resolve
         //console.log("UID: " + uid);
+        console.log(this.map1, this.map2);
         getMatchingUsers({
           //"uid": uid,
-          "origin": this.state1,
-          "destination": this.state2
+          
+          "origin": this.map1,
+          "destination": this.map2
         }).then((result) => {
           console.log(result.data);
           //loader.hide();
