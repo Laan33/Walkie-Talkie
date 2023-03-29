@@ -16,11 +16,6 @@ export default {
 
 
   mounted() {
-
-
-
-
-
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
 
@@ -58,7 +53,7 @@ function initMap() {
   var options = {
     center: centerOfMap, //Set center.
     zoom: 7 //The zoom value.
-  };    
+  };
 
   //Create the map object.
   map = new google.maps.Map(document.getElementById('map'), options);

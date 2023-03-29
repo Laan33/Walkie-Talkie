@@ -1,6 +1,15 @@
 <template>
   <div>
     <div class="mb-3 center">
+      <label for="exampleUsernameInput1" class="form-label">Username</label>
+      <input type="username" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
+    </div>
+    <div class="mb-3 center">
+      <label for="examplePhoneNumInput" class="form-label">Phone number</label>
+      <input type="phone number" class="form-control" v-model="phoneNum" id="phoneNum1" placeholder="Phone Number">
+    </div>
+
+    <div class="mb-3 center">
       <label for="stateLocation">Origin Location</label>
       <select name="state1" v-model="state1" id="state1" :value="value">
         <option value="DEFAULT" selected="selected">State</option>
@@ -27,12 +36,14 @@
     </div>
 
 
+
+
     <div class="mb-3 right">
       <button type="button" @click="postUserLocation" class="btn btn-primary">Post location</button>
     </div>
 
     <div>
-      <MapComponent :map1="state1" :map2="state2" />
+<!--      <MapComponent :map1="state1" :map2="state2" />-->
     </div>
 
     <MatchingComponent :map1="state1" :map2="state2" />
@@ -43,7 +54,7 @@
 <script>
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { ref } from 'vue';
-import MapComponent from "@/components/MapComponent.vue";
+// import MapComponent from "@/components/MapComponent.vue";
 import MatchingComponent from "@/components/MatchingComponent.vue";
 
 export default {
@@ -79,7 +90,7 @@ export default {
   },
 
   components: {
-    MapComponent,
+    // MapComponent,
     MatchingComponent
   }
 };
