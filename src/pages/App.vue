@@ -1,103 +1,19 @@
 <template>
-  <h1>Welcome to my new Blog page</h1>
-  <p>User ID:
-    <button type="button" @click="getCurrentUserId" class="btn btn-primary">Get User id</button>
-    {{ userID }}
-  </p>
+  <h1>Walkie Talkie</h1>
+  <div>
+    <UserIDComponent />
+  </div>
 
   <div class="container mt-5">
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Email address</label>
       <input type="email" class="form-control" v-model="handle" id="exampleFormControlInput1"
-        placeholder="name@example.com">
+             placeholder="name@example.com">
     </div>
-    <div class="mb-3">
-      <label for="exampleFormControlTextarea1" class="form-label">Comment</label>
-      <textarea class="form-control" v-model="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
-    </div>
-    <div class="mb-3 right">
-      <button type="button" @click="postComment" class="btn btn-primary">Post Comment</button>
-    </div>
-    <div class="mb-3 right">
-      <button type="button" @click="getComments" class="btn btn-primary">Show Comments</button>
-    </div>
-    <!-- 
-    <div>
-      <button type="button" @click="getCurrentUserId" class="btn btn-primary">Get User id</button>
-    </div>
-    -->
+
     <br><br>
-    <div class="mb-3 center">
-      <label for="exampleUsernameInput1" class="form-label">Username</label>
-      <input type="username" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
-    </div>
-    <div class="mb-3 center">
-      <label for="stateLocation">Origin Location</label>
-      <select name="state1" v-model="state1" id="state1" :value="value" @change="e => $emit('input', e.target.value)">
+    <PostLocComponent />
 
-        <option value="DEFAULT" selected="selected">State</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA">California</option>
-        <option value="CO">Colorado</option>
-      </select>
-
-
-    </div>
-
-    <div class="mb-3 center">
-      <label for="stateLocation">Destination Location</label>
-      <select name="state2" v-model="state2" id="state2" :value="value" @change="e => $emit('input', e.target.value)">
-
-        <option value="DEFAULT" selected="selected">State</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA">California</option>
-        <option value="CO">Colorado</option>
-      </select>
-
-
-    </div>
-
-    <div class="mb-3 right">
-      <button type="button" @click="postLocation" class="btn btn-primary">Post location</button>
-    </div>
-    <div class="mb-3 right">
-      <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
-    </div>
-    <br><br>
-
-
-
-
-    <!-- Checks to make sure there are actual comments to display -->
-
-
-    <!-- Checks to make sure there are actual comments to display -->
-    <div v-if="commentsArray.length > 0">
-      <ul>
-        <li v-for="comment in commentsArray">
-          <div v-if="!editing">
-            <span @click="enableEditing(comment.data.comment)">
-              {{ comment.data.comment }}</span>
-          </div>
-
-          <div v-if="editing">
-            <input v-model="tempValue" class="input" />
-            <button @click="disableEditing"> Cancel </button>
-            <button @click="save(comment.id)"> Save </button>
-          </div>
-
-          <button type="button" @click="deleteComment(comment.id)" class="btn btn-primary">Delete Comment</button>
-
-
-        </li>
-      </ul>
-    </div>
   </div>
 </template>
 
@@ -107,7 +23,20 @@ import app from '../.api/firebase';
 import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { store } from '../store/store';
+
+import UserIDComponent from "@/components/UserIDComponent.vue";
+import SaveComponent from "@/components/SaveComponent.vue";
+import PostLocComponent from "@/components/PostLocComponent.vue";
+import MatchingComponent from "@/components/MatchingComponent.vue";
+
 export default {
+
+  components: {
+    UserIDComponent,
+    SaveComponent,
+    PostLocComponent,
+    MatchingComponent
+  },
   data() {
     return {
       handle: '',
@@ -122,127 +51,6 @@ export default {
       userID: null,
       store,
     }
-  },
-  created() {
-
-    this.getComments();
-    //window.setInterval(this.getComments, 1000);
-  },
-  methods: { // and look at this tooooooooooooooooo
-    postComment() {
-      const functions = getFunctions(app);
-      const postComment = httpsCallable(functions, 'postusercomment');
-      postComment({
-        "handle": this.handle, "comment":
-          this.comment
-      }).then((result) => {
-        // Read result of the Cloud Function.
-        // /** @type {any} */
-        this.getComments();
-      });
-    },
-    getComments() {      
-      const functions = getFunctions(app);
-
-      const getComments = httpsCallable(functions, 'getcomments');
-      getComments().then((result) => {
-        console.log(result.data);
-       
-        this.commentsArray = result.data;
-      });
-    },
-
-    async getMatchingUsers() {
-      const functions = getFunctions(app);
-      const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
-      try {
-        const uid = await this.getCurrentUserId(); // Wait for the promise to resolve
-        console.log("UID: " + uid);
-        getMatchingUsers({
-          "uid": uid,
-          "origin": this.state1,
-          "destination": this.state2
-        }).then((result) => {
-          console.log(result.data);
-          //loader.hide();
-          this.locationArray = result.data;
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    postLocation() {
-      const functions = getFunctions(app);
-
-      console.log("Posting user location");
-      console.log(this.state1);
-      const postLocation = httpsCallable(functions, 'postuserlocation');
-      postLocation({
-        "username": this.username,
-        "origin": this.state1,
-        "destination": this.state2,        
-      }).then((result) => {
-        console.log(result);
-      });
-    },
-    enableEditing(comment) {
-      this.tempValue = comment;
-      this.editing = true;
-    },
-    disableEditing() {
-      this.tempValue = null;
-      this.editing = false;
-    },
-    save(id) {
-      const functions = getFunctions(app);
-      const updateComment = httpsCallable(functions, 'updatecomment?id=' + id);
-
-      updateComment({ comment: this.tempValue }).then((result) => {
-        this.getComments();
-        this.editing = false;
-      });
-    },
-
-    getCurrentUserId() {
-      const auth = getAuth(app);
-      return new Promise((resolve, reject) => {
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            console.log("User", user.uid);
-            resolve(user.uid);
-          } else {
-            console.log("No user found")
-            reject(new Error("User not found"));
-          }
-        });
-      });
-    },
-    
-    created() {
-      // Check for logged in user
-      const auth = getAuth(app);
-      onAuthStateChanged(auth, (user) => {
-        this.user = user; // set the user object to the user prop
-        if (user) {
-          console.log("User", user);
-          // User is signed in
-        } else {
-          console.log("No user found")
-          // User is not signed in 
-        }
-      });
-      
-    },
-    deleteComment(id) {
-      const functions = getFunctions(app);
-      const deleteComment = httpsCallable(functions, 'deleteusercomment');
-      deleteComment({ id: id }).then((result) => {
-        console.log(result.data);
-        if (result.data == "Document successfully deleted")
-          this.getComments();
-      }); // To refresh the client
-    },
-
   }
 }
 </script>
