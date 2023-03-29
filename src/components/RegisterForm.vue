@@ -1,12 +1,12 @@
 <template>
-  <header class="masthead bg-transparent text-white">
+  <body>
     <div class="card">
       <label>Register</label>
-      <input type="email" v-model="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-      <input type="password" v-model="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-      <button @click="register" class="btn btn-primary mt-2">Create Account</button>
+      <input type="email" v-model="email"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+      <input type="password" v-model="password"  id="exampleInputPassword1" placeholder="Password">
+      <button @click="register" >Create Account</button>
     </div>
-  </header>
+  </body>
 </template>
 
 <script>
@@ -50,19 +50,15 @@ export default {
 </script>
 
 <style scoped>
-header {
-  width: 500px;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 40px;
-  display: flex;
+body {
+  background-image:url("../assets/img/background-image1.jpg") ;
+  width: 1220px;
+  height: 609px;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-
+  background-size:cover ;
   background-color: var(--dark);
   color: var(--light);
+
 }
 .card{
   width: 350px;
@@ -74,12 +70,12 @@ header {
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  box-shadow: 0px 0px 20px rgb(99, 180, 110);
-  background-color: #ffffff;
+  box-shadow: 0px 0px 20px rgb(98, 63, 35);
+  background-color: #1e293b;
 }
 label{
   font-size: 20px;
-  color: #333;
+  color: #fff;
   margin-bottom: 15px;
 }
 
@@ -90,9 +86,13 @@ input {
   padding: 10px;
   border: none;
   border-radius: 20px;
-  background-color: #f5f5f5;
+  background-color: #4ade80;
+ text-align: center;
   font-size: 14px;
-  color: #333;
+  color: #fff;
+}
+input::placeholder{
+  color: #fff;
 }
 
 button {
@@ -101,7 +101,7 @@ button {
   padding: 10px;
   border: none;
   border-radius: 20px;
-  background-color: #25641d;
+  background-color: #4ade80;
   font-size: 14px;
   font-weight: 500;
   color: #fff;
@@ -112,7 +112,7 @@ button {
 }
 
 button:hover {
-  background-color: #25641d;
+  background-color: #4ade80;
 }
 
 button:active,
