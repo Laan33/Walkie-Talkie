@@ -14,10 +14,6 @@
     <br><br>
     <PostLocComponent />
 
-    <div>
-      <MatchingComponent />
-    </div>
-
   </div>
 </template>
 

@@ -9,12 +9,17 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 
 export default {
   props: {
+
+    map1: String,
+    map2: String,
+
     app: {
       type: Object,
       required: true,
     },
   },
   data() {
+
     return {
       currentUserID: '',
       locationArray: [],

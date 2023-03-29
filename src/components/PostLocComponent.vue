@@ -35,6 +35,8 @@
       <MapComponent :map1="state1" :map2="state2" />
     </div>
 
+    <MatchingComponent :map1="state1" :map2="state2" />
+
   </div>
 </template>
 
@@ -42,6 +44,7 @@
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { ref } from 'vue';
 import MapComponent from "@/components/MapComponent.vue";
+import MatchingComponent from "@/components/MatchingComponent.vue";
 
 export default {
   name: 'PostLocation',
@@ -76,7 +79,8 @@ export default {
   },
 
   components: {
-    MapComponent
+    MapComponent,
+    MatchingComponent
   }
 };
 </script>
