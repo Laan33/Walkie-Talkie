@@ -31,7 +31,7 @@ import { store } from '../store/store';
 import UserIDComponent from "@/components/UserIDComponent.vue";
 import SaveComponent from "@/components/SaveComponent.vue";
 import PostLocComponent from "@/components/PostLocComponent.vue";
-// import MatchingComponent from "@/components/MatchingComponent.vue";
+import MatchingComponent from "@/components/MatchingComponent.vue";
 
 export default {
 
@@ -39,7 +39,7 @@ export default {
     UserIDComponent,
     SaveComponent,
     PostLocComponent,
-    // MatchingComponent
+    MatchingComponent
   },
   data() {
     return {

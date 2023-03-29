@@ -23,6 +23,7 @@ export default {
     };
   },
   methods: {
+    /*
     async getCurrentUserId() {
       console.log("Test1");
 
@@ -39,15 +40,15 @@ export default {
         console.error(error);
         return null;
       }
-    },
+    }, */
     async getMatchingUsers() {
       const functions = getFunctions(app);
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
       try {
-        const uid = await this.getCurrentUserId(); // Wait for the promise to resolve
-        console.log("UID: " + uid);
+        //const uid = await this.getCurrentUserId(); // Wait for the promise to resolve
+        //console.log("UID: " + uid);
         getMatchingUsers({
-          "uid": uid,
+          //"uid": uid,
           "origin": this.state1,
           "destination": this.state2
         }).then((result) => {

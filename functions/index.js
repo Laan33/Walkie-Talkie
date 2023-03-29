@@ -97,8 +97,7 @@ exports.postusercomment = functions.https.onCall((data, context) => {
     }
 });
 
-
-
+/*
 
 exports.getmatchingusers = functions.https.onCall(async (currentUser) => {
     try {
@@ -122,6 +121,57 @@ exports.getmatchingusers = functions.https.onCall(async (currentUser) => {
                         + " uid: " + location.data.uid + " current user uid & location: " + currentUser.uid + " , " + currentUser.origin + " , " + currentUser.destination);
 
                     if (location.data.uid !== currentUser.uid) {
+                        matchingUsers.push("Username: " + location.data.username, "Origin: " + location.loc.locOrigin, "Destination: " + location.loc.locDestination);
+                    }
+                }
+                else {
+                    console.log('No such document!');
+                }
+            });
+        } else {
+            console.log('Query snapshot is empty.');
+        }
+
+        console.log("matching users: ", matchingUsers);
+
+        return matchingUsers;
+    } catch (error) {
+        console.error(error);
+        throw new functions.https.HttpsError('internal', 'Unable to get matching users.');
+    }
+}); */
+
+
+exports.getmatchingusers = functions.https.onCall(async (currentUser, context) => {
+    if (!context.auth) {
+        throw new functions.https.HttpsError('unauthenticated', 'You must be authenticated to call this function.');
+    }
+
+    // Retrieve the current user ID
+    //currentUser.uid = context.auth.uid;
+    console.log("current user uid: " + context.auth.uid);
+
+    try {
+        console.log("LOOK AT ME NOW WOOOO");
+        console.log("current user loc: " + currentUser.origin + " , " + currentUser.destination + " uid: " + context.auth.uid);
+        const locationsRef = db.collection('locations');
+        const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000); // Get the timestamp for 30 minutes ago
+
+        const querySnapshot2 = await locationsRef
+            .where('loc.locOrigin', '==', currentUser.origin)
+            .where('loc.locDestination', '==', currentUser.destination)
+            .where('timestamp', '>=', thirtyMinutesAgo)
+            .get();
+        const matchingUsers = [];
+
+        if (!querySnapshot2.empty) {
+            querySnapshot2.forEach((doc) => {
+                if (doc.exists) {
+                    const location = doc.data();
+                    console.log("location: ", location.loc.locOrigin + " " + location.loc.locDestination + " username: " + location.data.username
+                        + " uid: " + location.data.uid + " current user uid & location: " + context.auth.uid + " , " + currentUser.origin + " , " + currentUser.destination);
+
+                    if (location.data.uid !== context.auth.uid) {
                         matchingUsers.push("Username: " + location.data.username, "Origin: " + location.loc.locOrigin, "Destination: " + location.loc.locDestination);
                     }
                 }
