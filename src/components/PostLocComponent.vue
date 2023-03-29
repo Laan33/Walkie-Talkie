@@ -30,12 +30,18 @@
     <div class="mb-3 right">
       <button type="button" @click="postUserLocation" class="btn btn-primary">Post location</button>
     </div>
+
+    <div>
+      <MapComponent />
+    </div>
+
   </div>
 </template>
 
 <script>
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { ref } from 'vue';
+import MapComponent from "@/components/MapComponent.vue";
 
 export default {
   name: 'PostLocation',
@@ -64,13 +70,13 @@ export default {
       state1,
       state2,
       postUserLocation,
+      // map1: "state1",
+      // map2: "state2"
     };
   },
 
-  methods: {
-    sendStrings() {
-      this.$emit("stringsChanged", this.state1, this.state2);
-    }
+  components: {
+    MapComponent
   }
 };
 </script>

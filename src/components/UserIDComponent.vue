@@ -25,9 +25,10 @@ export default {
       const functions = getFunctions(this.app);
       const getUserId = httpsCallable(functions, 'getCurrentUserId');
       getUserId().then((result) => {
-        // console.log(result.data);
         this.currentUserID = result.data.userId;
-        return this.getCurrentUserId();
+        console.log(this.currentUserID)
+      }).catch((error) => {
+        console.error(error);
       });
     },
   },
