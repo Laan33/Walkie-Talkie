@@ -231,8 +231,7 @@ export default {
           // User is not signed in 
         }
       });
-      this.getComments();
-      //window.setInterval(this.getComments, 1000);
+      
     },
     deleteComment(id) {
       const functions = getFunctions(app);
