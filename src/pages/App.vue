@@ -51,30 +51,7 @@ export default {
       userID: null,
       store,
     }
-  },
-
-  // methods: { // and look at this tooooooooooooooooo
-
-
-    // async getMatchingUsers() {
-    //   const functions = getFunctions(app);
-    //   const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
-    //   try {
-    //     const uid = await this.getCurrentUserId(); // Wait for the promise to resolve
-    //     console.log("UID: " + uid);
-    //     getMatchingUsers({
-    //       "uid": uid,
-    //       "origin": this.state1,
-    //       "destination": this.state2
-    //     }).then((result) => {
-    //       console.log(result.data);
-    //       //loader.hide();
-    //       this.locationArray = result.data;
-    //     });
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
+  }
 }
 </script>
 <style scoped>
