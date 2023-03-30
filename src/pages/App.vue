@@ -1,16 +1,7 @@
 <template>
   <body>
-  <div>
-    <UserIDComponent />
-  </div>
-
-  <div class="container mt-5">
-
-
-    <br><br>
     <PostLocComponent />
-
-  </div>
+    <UserIDComponent />
   </body>
 </template>
 
@@ -54,7 +45,7 @@ export default {
 <style scoped>
 body{
   background-image:url("../assets/img/background-image1.jpg") ;
-  width: 1220px;
+  width: 100vw;
   height: 100vh;
   flex-direction: column;
   background-size:cover ;
