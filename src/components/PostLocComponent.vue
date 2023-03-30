@@ -98,20 +98,69 @@ export default {
 };
 </script>
 <style scoped>
-input {
-  width: 100%;
+label {
+  color: #fff;
+}
+
+input[type="username"],
+input[type="phone number"] {
+  width: 50vh;
   margin-bottom: 20px;
-  height: 40px;
   padding: 10px;
   border: none;
   border-radius: 20px;
   background-color: #4ade80;
   text-align: center;
   font-size: 14px;
+}
+
+input[type="username"]::placeholder,
+input[type="phone number"]::placeholder {
   color: #fff;
 }
-.card{
-  width: 350px;
+
+.select-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+select {
+  width: 50vh;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: #4ade80;
+  text-align: center;
+  font-size: 14px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+}
+
+select option:first-of-type {
+  display: none;
+}
+
+.btn-primary {
+  background-color: #4ade80;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #3cc36b;
+}
+
+.card {
+  width: 700px;
   max-width: 100%;
   margin: 0 auto;
   padding: 40px;
