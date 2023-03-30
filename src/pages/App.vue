@@ -1,16 +1,11 @@
 <template>
   <body>
-  <h1>Walkie Talkie</h1>
   <div>
     <UserIDComponent />
   </div>
 
   <div class="container mt-5">
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">Email address</label>
-      <input type="email" class="form-control" v-model="handle" id="exampleFormControlInput1"
-             placeholder="name@example.com">
-    </div>
+
 
     <br><br>
     <PostLocComponent />
@@ -60,7 +55,7 @@ export default {
 body{
   background-image:url("../assets/img/background-image1.jpg") ;
   width: 1220px;
-  height: 609px;
+  height: 100vh;
   flex-direction: column;
   background-size:cover ;
 

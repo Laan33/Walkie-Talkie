@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <button type="button" @click="getCurrentUserId" class="btn btn-primary">Get User id</button>
-    User ID: {{ currentUserID }}
-  </div>
+
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div class="card">
     <div class="mb-3 center">
       <label for="exampleUsernameInput1" class="form-label">Username</label>
       <input type="username" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
@@ -109,5 +109,18 @@ input {
   text-align: center;
   font-size: 14px;
   color: #fff;
+}
+.card{
+  width: 350px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgb(98, 63, 35);
+  background-color: #1e293b;
 }
 </style>
