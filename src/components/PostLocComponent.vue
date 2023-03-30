@@ -2,11 +2,11 @@
   <div>
     <div class="mb-3 center">
       <label for="exampleUsernameInput1" class="form-label">Username</label>
-      <input type="username" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
+      <input type="text" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
     </div>
     <div class="mb-3 center">
       <label for="examplePhoneNumInput" class="form-label">Phone number</label>
-      <input type="phone number" class="form-control" v-model="phoneNum" id="phoneNum1" placeholder="Phone Number">
+      <input type="text" class="form-control" v-model="phoneNum" id="phoneNum1" placeholder="Phone Number">
     </div>
 
     <div class="mb-3 center">
@@ -59,18 +59,22 @@ import MatchingComponent from "@/components/MatchingComponent.vue";
 
 export default {
   name: 'PostLocation',
+  
 
   setup() {
     const state1 = ref('DEFAULT');
     const state2 = ref('DEFAULT');
     const username = ref(''); // Your username goes here
-
+    const phoneNum = ref('');
+    
     const postUserLocation = async () => {
+      console.log("phone: " + phoneNum1.value + " ,example: " + exampleUsernameInput1.value);
       const functions = getFunctions();
       const postLocation = httpsCallable(functions, 'postuserlocation');
       try {
         const result = await postLocation({
-          "username": username.value,
+          "username": exampleUsernameInput1.value,
+          "phoneNum": phoneNum1.value,
           "origin": state1.value,
           "destination": state2.value,
         });

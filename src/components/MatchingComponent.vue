@@ -1,32 +1,3 @@
-<template>
-  <div class="mb-3 right">
-    <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
-  </div>
-
-  <div v-if="locationArray.length > 0">
-    <table>
-      <thead>
-      <tr>
-        <th>Username</th>
-        <th>Origin</th>
-        <th>Destination</th>
-      </tr>
-      </thead>
-      <tbody>
-      <template v-for="(result, index) in locationArray">
-
-        <template v-if="index % 3 === 0">
-          <tr>
-            <td>{{ locationArray[index].username ? locationArray[index].username : 'Empty' }}</td>
-            <td v-if="locationArray[index + 1]">{{ locationArray[index + 1].data ? locationArray[index + 1].data.result : 'Empty' }}</td>
-            <td v-if="locationArray[index + 2]">{{ locationArray[index + 2].data ? locationArray[index + 2].data.result : 'Empty' }}</td>
-          </tr>
-        </template>
-      </template>
-      </tbody>
-    </table>
-  </div>
-</template>
 
 <script>
 import app from '../.api/firebase';
@@ -52,7 +23,6 @@ export default {
   methods: {
     async getMatchingUsers() {
       console.log("Hello1wworld");
-      console.log(this.app);
       const functions = getFunctions(app);
       console.log(functions)
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
@@ -63,7 +33,7 @@ export default {
           "destination": this.map2
         });
         console.log(result.data);
-        this.result = result.data;
+        
         this.locationArray = result.data;
       } catch (error) {
         console.error(error);
@@ -72,3 +42,24 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div class="mb-3 right">
+    <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
+  </div>
+  <!-- Table to display matching users -->
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in locationArray" :key="index">
+        <td>{{ item.split('\t')[0] }}</td>
+        <td>{{ item.split('\t')[1] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</template>
