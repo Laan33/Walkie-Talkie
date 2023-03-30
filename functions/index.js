@@ -113,7 +113,8 @@ exports.getmatchingusers = functions.https.onCall(async (currentUser, context) =
                         + " uid: " + location.data.uid + " current user uid & location: " + context.auth.uid + " , " + currentUser.origin + " , " + currentUser.destination);
 
                     if (location.data.uid !== context.auth.uid) {
-                        matchingUsers.push(location.data.username + " \t " + location.data.phoneNum);
+                        //matchingUsers.push(location.data.username + " \t " + location.data.phoneNum);
+                        matchingUsers.push("Username: " + location.data.username + "  Phone Number: " + location.data.phoneNum)
                     }
                 }
                 else {
@@ -143,7 +144,7 @@ exports.securefunction = functions.https.onCall((data, context) => {
         return "User is not logged in"
     }
     else {
-        return "User is logged in"
+        return context.auth;
     }
 
 });

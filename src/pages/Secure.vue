@@ -11,60 +11,11 @@
       </div>
       <!-- Portfolio Grid Items-->
       <div class="row justify-content-center">
-        <!-- Portfolio Item 1-->
-        <div class="col-md-6 col-lg-4 mb-5">
-          <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-            </div>
-            <img class="img-fluid" src="../assets/img/portfolio/cabin.png" alt="..." />
-          </div>
-        </div>
-        <!-- Portfolio Item 2-->
-        <div class="col-md-6 col-lg-4 mb-5">
-          <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-            </div>
-            <img class="img-fluid" src="../assets/img/portfolio/cake.png" alt="..." />
-          </div>
-        </div>
-        <!-- Portfolio Item 3-->
-        <div class="col-md-6 col-lg-4 mb-5">
-          <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal3">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-            </div>
-            <img class="img-fluid" src="../assets/img/portfolio/circus.png" alt="..." />
-          </div>
-        </div>
-        <!-- Portfolio Item 4-->
-        <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
-          <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal4">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-            </div>
-            <img class="img-fluid" src="../assets/img/portfolio/game.png" alt="..." />
-          </div>
-        </div>
-        <!-- Portfolio Item 5-->
-        <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
-          <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal5">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-            </div>
-            <img class="img-fluid" src="../assets/img/portfolio/safe.png" alt="..." />
-          </div>
-        </div>
-        <!-- Portfolio Item 6-->
-        <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal6">
-            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-              <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-            </div>
-            <img class="img-fluid" src="../assets/img/portfolio/submarine.png" alt="..." />
-          </div>
-        </div>
+        <h1>Your personal details</h1><br><br>
+        
+        <h3>Your email: {{ email }}</h3>
+        <h3>Your UID: {{ uid }}</h3>
+        
       </div>
     </div>
   </section>
@@ -75,6 +26,12 @@ import app from '../.api/firebase';
 import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions";
 export default {
   name: "Secure",
+  data() {
+    return {
+      email: null,
+      uid: null
+    };
+  },
 
   created(){
     // Call secure function and load some data
@@ -82,11 +39,19 @@ export default {
     //if(window.location.hostname === 'localhost') // Checks if working locally
       //connectFunctionsEmulator(functions, "localhost", 5001);
     const secureFunction = httpsCallable(functions, 'securefunction');
+    console.log("yay");
     secureFunction()
         .then((result) => {
           // Read result of the Cloud Function.
           /** @type {any} */
-          console.log(result);
+          console.log("whats" + result);
+          console.log("email " + this.email);
+          // Update email and uid data properties
+          console.log("hmmmm " + result.auth);
+          console.log(result.data.uid);
+          console.log("yay" + result.auth.uid);
+          //this.email = result.data.email;
+          //this.uid = result.data.uid;
         });
   }
 
