@@ -1,7 +1,7 @@
 <template>
   <body>
-  <UserIDComponent />
     <PostLocComponent />
+    <UserIDComponent />
   </body>
 </template>
 

@@ -32,7 +32,7 @@
 					<span class="material-icons">apps</span>
 					<span class="text">App</span>
 			</router-link>
-			<router-link to="/secure" class="button" v-if="isLoggedIn" @click="logout">
+			<router-link to="/app" class="button" v-if="isLoggedIn" @click="logout">
 					<span class="material-icons">logout</span>
 					<span class="text">Logout</span>
 			</router-link>
@@ -40,12 +40,12 @@
 
 		<div class="flex"></div>
 		
-		<div class="menu">
-			<router-link to="/settings" class="button">
-				<span class="material-icons">settings</span>
-				<span class="text">Settings</span>
-			</router-link>
-		</div>
+<!--		<div class="menu">-->
+<!--			<router-link to="/settings" class="button">-->
+<!--				<span class="material-icons">settings</span>-->
+<!--				<span class="text">Settings</span>-->
+<!--			</router-link>-->
+<!--		</div>-->
 	</aside>
 </template>
 
