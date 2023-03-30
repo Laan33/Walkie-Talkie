@@ -15,7 +15,7 @@
           <label>Where are you?</label>
     <select name="state1" v-model="state1" id="state1" :value="value">
 
-      <option value="DEFAULT" disabledselected="selected">Current Location</option>
+      <option value="DEFAULT" disabled selected="selected">Current Location</option>
       <option value="ES">Eyre Square</option>
       <option value="UG">University of Galway</option>
       <option value="WS">Westside</option>
@@ -36,9 +36,9 @@
       <option value="SH">Salthill</option>
     </select>
         </div>
-    <div class="buttons">
+
     <button type="button" @click="postUserLocation" class="btn btn-primary">Post location</button>
-    </div>
+
     <MatchingComponent :map1="state1" :map2="state2" />
     </td>
 
