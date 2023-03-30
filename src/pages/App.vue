@@ -1,4 +1,5 @@
 <template>
+  <body>
   <h1>Walkie Talkie</h1>
   <div>
     <UserIDComponent />
@@ -15,6 +16,7 @@
     <PostLocComponent />
 
   </div>
+  </body>
 </template>
 
 
@@ -55,21 +57,12 @@ export default {
 }
 </script>
 <style scoped>
-.right {
-  text-align: right;
-}
+body{
+  background-image:url("../assets/img/background-image1.jpg") ;
+  width: 1220px;
+  height: 609px;
+  flex-direction: column;
+  background-size:cover ;
 
-.centre {
-  text-align: center;
-}
-
-* {
-  padding-left: 10%;
-}
-
-.btn {
-  padding: 10px;
-  background-color: greenyellow;
-  color: white;
 }
 </style>

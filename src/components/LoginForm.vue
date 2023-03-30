@@ -2,9 +2,9 @@
   <body>
     <div class="card">
       <label>Login</label>
-      <input type="email" v-model="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-      <input type="password" v-model="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-      <button @click="login" class="btn btn-primary mt-2">Log In</button>
+      <input type="email" v-model="email"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+      <input type="password" v-model="password" id="exampleInputPassword1" placeholder="Password">
+      <button @click="login" >Log In</button>
     </div>
   </body>
 </template>
@@ -48,7 +48,7 @@ img{
 body {
   background-image:url("../assets/img/background-image1.jpg") ;
   width: 1220px;
-  height: 609px;
+  height: 100vh;
   flex-direction: column;
   background-size:cover ;
   background-color: var(--dark);
@@ -107,7 +107,7 @@ button {
 }
 
 button:hover {
-  background-color: #25641d;
+  background-color: #4ade80;
 }
 
 button:active,
@@ -116,15 +116,17 @@ button:focus {
   box-shadow: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1300px) {
   .card {
     width: 100%;
     max-width: 350px;
+    margin-top: 10em;
   }
 }
-@media (max-width: 376px) {
-  .card{
+@media (max-width: 576px) {
 
+  .card{
+    width: 80%;
   }
 }
 </style>

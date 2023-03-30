@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <div class="mb-3 center">
       <label for="exampleUsernameInput1" class="form-label">Username</label>
@@ -49,6 +50,7 @@
     <MatchingComponent :map1="state1" :map2="state2" />
 
   </div>
+
 </template>
 
 <script>
@@ -95,3 +97,17 @@ export default {
   }
 };
 </script>
+<style scoped>
+input {
+  width: 100%;
+  margin-bottom: 20px;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: #4ade80;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+}
+</style>

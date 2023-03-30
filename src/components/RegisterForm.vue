@@ -53,12 +53,11 @@ export default {
 body {
   background-image:url("../assets/img/background-image1.jpg") ;
   width: 1220px;
-  height: 609px;
+  height: 100vh;
   flex-direction: column;
   background-size:cover ;
   background-color: var(--dark);
   color: var(--light);
-
 }
 .card{
   width: 350px;
@@ -121,10 +120,17 @@ button:focus {
   box-shadow: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1300px) {
   .card {
     width: 100%;
     max-width: 350px;
+    margin-top: 10em;
+  }
+}
+@media (max-width: 576px) {
+
+  .card{
+    width: 80%;
   }
 }
 
