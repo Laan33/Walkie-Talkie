@@ -12,26 +12,26 @@
     <div class="mb-3 center">
       <label for="stateLocation">Origin Location</label>
       <select name="state1" v-model="state1" id="state1" :value="value">
-        <option value="DEFAULT" selected="selected">State</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA">California</option>
-        <option value="CO">Colorado</option>
+        <option value="DEFAULT" selected="selected">Location</option>
+        <option value="ES">Eyre Square</option>
+        <option value="UG">University of Galway</option>
+        <option value="WS">Westside</option>
+        <option value="KC">Knocknacarra</option>
+        <option value="CG">Claregalway</option>
+        <option value="SH">Salthill</option>
       </select>
     </div>
 
     <div class="mb-3 center">
       <label for="stateLocation">Destination Location</label>
       <select name="state2" v-model="state2" id="state2" :value="value">
-        <option value="DEFAULT" selected="selected">State</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA">California</option>
-        <option value="CO">Colorado</option>
+        <option value="DEFAULT" selected="selected">Location</option>
+        <option value="ES">Eyre Square</option>
+        <option value="UG">University of Galway</option>
+        <option value="WS">Westside</option>
+        <option value="KC">Knocknacarra</option>
+        <option value="CG">Claregalway</option>
+        <option value="SH">Salthill</option>
       </select>
     </div>
 
@@ -43,7 +43,7 @@
     </div>
 
     <div>
-<!--      <MapComponent :map1="state1" :map2="state2" />-->
+      <MapComponent :map1="state1" :map2="state2" />
     </div>
 
     <MatchingComponent :map1="state1" :map2="state2" />
@@ -54,7 +54,7 @@
 <script>
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { ref } from 'vue';
-// import MapComponent from "@/components/MapComponent.vue";
+import MapComponent from "@/components/MapComponent.vue";
 import MatchingComponent from "@/components/MatchingComponent.vue";
 
 export default {
@@ -90,7 +90,7 @@ export default {
   },
 
   components: {
-    // MapComponent,
+    MapComponent,
     MatchingComponent
   }
 };

@@ -1,99 +1,134 @@
 <template>
-  <div>
-    <div id="map"></div>
-    <p>Test: {{ map1 }} {{ map2 }}</p>
-  </div>
-</template>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtsOpEo7dKzmZRSm03WX8K65qFr_GqGu4">
+  <div ref="mapContainer" style="height: 250px;"></div>
+  </template>
+<script>
 export default {
-  name: "MyMapComponent",
   props: {
     map1: String,
     map2: String
   },
-
-
-
+  data() {
+    return {
+      markers: [
+        {
+          position: { lat: 53.2738365684154, lng: -9.047927856445314 },
+          title: 'Origin Marker',
+          map: null,
+        },
+        {
+          position: { lat: 53.2738365684154, lng: -9.047927856445314 },
+          title: 'Dest Marker',
+          map: null,
+        },
+      ],
+      activeMarkerIndex: null,
+    };
+  },
   mounted() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+    const script = document.createElement('script');
+    script.src =
+"https://maps.googleapis.com/maps/api/js?key=REPLACE_ME_APIKEY&callback=initMap";
+    script.defer = true;
+    script.async = true;
 
-        const { latitude, longitude } = position.coords;
-        console.log("Lat: " + latitude);
-        console.log("Long: " + longitude);
+    window.initMap = () => this.initMapHandler();
+    document.head.appendChild(script);
 
-        // Create the Google Map
-        const map = createMap({ lat: latitude, lng: longitude });
-
-        // Create the Marker for the current location
-        const marker = createMarker({ map, position: { lat: latitude, lng: longitude } });
-      }, (error) => {
-        console.log(error);
+    // Import blue dot image URL from Google Maps API
+    const blueDotImageUrl =
+        'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+    const markerIcon = document.createElement('link');
+    markerIcon.setAttribute('rel', 'icon');
+    markerIcon.setAttribute('type', 'image/png');
+    markerIcon.setAttribute('href', blueDotImageUrl);
+    document.head.appendChild(markerIcon);
+  },
+  watch: {
+    map1: function (newVal) {
+      this.updateMarker(0);
+    },
+    map2: function (newVal) {
+      this.updateMarker(1);
+    },
+  },
+  methods: {
+    initMapHandler() {
+      const map = new google.maps.Map(this.$refs.mapContainer, {
+        center: { lat: this.markers[0].position.lat, lng: this.markers[0].position.lng },
+        zoom: 10,
       });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
+
+      this.markers.forEach((marker, index) => {
+        marker.map = map;
+        marker.markerInstance = new google.maps.Marker({
+          position: marker.position,
+          map: marker.map,
+          title: marker.title,
+          icon: index === 1 ? 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' : null,
+        });
+      });
+
+      this.activeMarkerIndex = 0;
+    },
+
+    updateMarker(index) {
+      let localLat, localLong;
+
+      if (index === 0) {
+        if (this.map1 === 'ES') {
+          localLat = 53.27437545;
+          localLong = -9.049219672355648;
+        } else if (this.map1 === 'UG') {
+          localLat = 53.2936337;
+          localLong = -9.075059919448318;
+        } else if (this.map1 === 'WS') {
+          localLat = 53.2768746;
+          localLong = -9.07729349573337;
+        } else if (this.map1 === 'KC') {
+          localLat = 53.2687291;
+          localLong = -9.1090937;
+        } else if (this.map1 === 'CG') {
+          localLat = 53.35113375;
+          localLong = -8.94472521513481;
+        } else if (this.map1 === 'SH') {
+          localLat = 53.2620258;
+          localLong = -9.0746256;
+        } else {
+          localLat = 53.2738365684154;
+          localLong = -9.047927856445314;
+        }
+      } else if (index === 1) {
+        if (this.map2 === 'ES') {
+          localLat = 53.27437545;
+          localLong = -9.049219672355648;
+        } else if (this.map2 === 'UG') {
+          localLat = 53.2936337;
+          localLong = -9.075059919448318;
+        } else if (this.map2 === 'WS') {
+          localLat = 53.2768746;
+          localLong = -9.07729349573337;
+        } else if (this.map2 === 'KC') {
+          localLat = 53.2687291;
+          localLong = -9.1090937;
+        } else if (this.map2 === 'CG') {
+          localLat = 53.35113375;
+          localLong = -8.94472521513481;
+        } else if (this.map2 === 'SH') {
+          localLat = 53.2620258;
+          localLong = -9.0746256;
+        } else {
+          localLat = 53.2738365684154;
+          localLong = -9.047927856445314;
+        }
+      }
+
+      if (this.markers[index].markerInstance) {
+        this.markers[index].markerInstance.setPosition({
+          lat: localLat,
+          lng: localLong,
+        });
+      }
+    },
   },
 };
-
-
-
-//Set up some of our variables.
-var map; //Will contain map object.
-
-//Function called to initialize / create the map.
-//This is called when the page has loaded.
-function initMap() {
-
-  //The center location of our map.
-  var centerOfMap = new google.maps.LatLng(52.357971, -6.516758);
-
-  //Map options.
-  var options = {
-    center: centerOfMap, //Set center.
-    zoom: 7 //The zoom value.
-  };
-
-  //Create the map object.
-  map = new google.maps.Map(document.getElementById('map'), options);
-
-
-}
-
-//This function will get the marker's current location and then add the lat/long
-//values to our textfields so that we can save the location.
-
-
-
-
-/*
-
-// Define the createMap function
-const createMap = ({ lat, lng }) => {
-  lat = 53.2801369
-  lng = -9.0585957
-  console.log(lat)
-  return new google.maps.Map(document.getElementById("map"), {
-    center: { lat, lng },
-    zoom: 15,
-  });
-};
-
-// Define the createMarker function
-const createMarker = ({ map, position }) => {
-  return new google.maps.Marker({ map, position });
-};
-
-// Define the showPosition function
-function showPosition(position) {
-  const latlon = position.coords.latitude + "," + position.coords.longitude;
-
-  const img_url =
-      "https://maps.googleapis.com/maps/api/staticmap?center=" +
-      latlon +
-      "&zoom=14&size=400x300&sensor=false&key=AIzaSyC4wP_vdl9QWCzaQi5y4SfjRHpBJcKuYHM";
-
-  document.getElementById("map").innerHTML = "<img src='" + img_url + "'>";
-} */
 </script>
