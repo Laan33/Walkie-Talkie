@@ -2,34 +2,37 @@
   <div class="card">
     <div class="mb-3 center">
       <label for="exampleUsernameInput1" class="form-label">Username</label>
-      <input type="username" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
+      <input type="text" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
     </div>
     <div class="mb-3 center">
       <label for="examplePhoneNumInput" class="form-label">Phone number</label>
-      <input type="phone number" class="form-control" v-model="phoneNum" id="phoneNum1" placeholder="Phone Number">
+      <input type="text" class="form-control" v-model="phoneNum" id="phoneNum1" placeholder="Phone Number">
     </div>
     <label>Where are you?</label>
     <div class="mb-3 center">
       <select name="state1" v-model="state1" id="state1" :value="value">
-        <option value="DEFAULT" disabled selected="selected">Current Location</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA">California</option>
-        <option value="CO">Colorado</option>
+
+        <option value="DEFAULT" selected="selected">Location</option>
+        <option value="ES">Eyre Square</option>
+        <option value="UG">University of Galway</option>
+        <option value="WS">Westside</option>
+        <option value="KC">Knocknacarra</option>
+        <option value="CG">Claregalway</option>
+        <option value="SH">Salthill</option>
+
       </select>
     </div>
     <label>Where are you going?</label>
     <div class="mb-3 center">
       <select name="state2" v-model="state2" id="state2" :value="value">
-        <option class="filler" value="DEFAULT" disabled selected="selected">Destination</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA">California</option>
-        <option value="CO">Colorado</option>
+
+        <option value="DEFAULT" selected="selected">Location</option>
+        <option value="ES">Eyre Square</option>
+        <option value="UG">University of Galway</option>
+        <option value="WS">Westside</option>
+        <option value="KC">Knocknacarra</option>
+        <option value="CG">Claregalway</option>
+        <option value="SH">Salthill</option>
       </select>
     </div>
 
@@ -41,7 +44,7 @@
     </div>
 
     <div>
-<!--      <MapComponent :map1="state1" :map2="state2" />-->
+      <MapComponent :map1="state1" :map2="state2" />
     </div>
 
     <MatchingComponent :map1="state1" :map2="state2" />
@@ -53,23 +56,27 @@
 <script>
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { ref } from 'vue';
-// import MapComponent from "@/components/MapComponent.vue";
+import MapComponent from "@/components/MapComponent.vue";
 import MatchingComponent from "@/components/MatchingComponent.vue";
 
 export default {
   name: 'PostLocation',
+  
 
   setup() {
     const state1 = ref('DEFAULT');
     const state2 = ref('DEFAULT');
     const username = ref(''); // Your username goes here
-
+    const phoneNum = ref('');
+    
     const postUserLocation = async () => {
+      console.log("phone: " + phoneNum1.value + " ,example: " + exampleUsernameInput1.value);
       const functions = getFunctions();
       const postLocation = httpsCallable(functions, 'postuserlocation');
       try {
         const result = await postLocation({
-          "username": username.value,
+          "username": exampleUsernameInput1.value,
+          "phoneNum": phoneNum1.value,
           "origin": state1.value,
           "destination": state2.value,
         });
@@ -89,7 +96,7 @@ export default {
   },
 
   components: {
-    // MapComponent,
+    MapComponent,
     MatchingComponent
   }
 };
