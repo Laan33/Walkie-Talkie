@@ -1,26 +1,3 @@
-<template>
-  <div class="mb-3 right">
-    <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
-  </div>
-  <div class="matching-users">
-    <table>
-      <thead>
-      <tr>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Email</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="user in formattedUsers" :key="user.id">
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</template>
 
 <script>
 import app from '../.api/firebase';
@@ -45,7 +22,9 @@ export default {
   },
   methods: {
     async getMatchingUsers() {
+      console.log("Hello1wworld");
       const functions = getFunctions(app);
+      console.log(functions)
       const getMatchingUsers = httpsCallable(functions, 'getmatchingusers');
       try {
         console.log(this.map1, this.map2);
@@ -54,20 +33,33 @@ export default {
           "destination": this.map2
         });
         console.log(result.data);
+        
         this.locationArray = result.data;
       } catch (error) {
         console.error(error);
       }
     }
-  },
-  computed: {
-    formattedUsers() {
-      return this.locationArray.map(user => ({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      }));
-    }
-  },
-};
+  }
+}
 </script>
+
+<template>
+  <div class="mb-3 right">
+    <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
+  </div>
+  <!-- Table to display matching users -->
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in locationArray" :key="index">
+        <td>{{ item.split('\t')[0] }}</td>
+        <td>{{ item.split('\t')[1] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</template>

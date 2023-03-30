@@ -15,4 +15,4 @@ import HelloWorld from '../components/HelloWorld.vue';
 
 
 </style>
->>>>>>> Stashed changes:src/pages/Home.vue
+

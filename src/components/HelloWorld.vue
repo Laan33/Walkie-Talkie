@@ -30,7 +30,7 @@ defineProps({
 body{
   background-image:url("../assets/img/background-image1.jpg") ;
   width: 1220px;
-  height: 609px;
+  height: 100vh;
   background-size: cover;
 }
 img{
