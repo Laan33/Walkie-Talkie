@@ -24,10 +24,10 @@
 				<span class="material-icons">login</span>
 				<span class="text">Login</span>
 			</router-link>
-			<router-link to="/secure" class="button" v-if="isLoggedIn" >
-					<span class="material-icons">key</span>
-					<span class="text">Secure</span>
-			</router-link>
+<!--			<router-link to="/secure" class="button" v-if="isLoggedIn" >-->
+<!--					<span class="material-icons">key</span>-->
+<!--					<span class="text">Secure</span>-->
+<!--			</router-link>-->
 			<router-link to="/app" class="button" v-if="isLoggedIn" >
 					<span class="material-icons">apps</span>
 					<span class="text">App</span>

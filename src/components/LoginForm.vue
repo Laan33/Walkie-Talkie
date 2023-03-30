@@ -28,7 +28,7 @@ export default {
         // Signed in
         let user = userCredential.user;
         console.log(user);
-        this.$router.push({path: '/secure'});
+        this.$router.push({path: '/app'});
       }).catch((error) => {
         let errorCode = error.code;
         let errorMessage = error.message;

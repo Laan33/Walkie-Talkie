@@ -27,7 +27,7 @@ export default [
     { path: '/blog', component: loadPage('Blog') },
     { path: '/registration', component: loadPage('Register') },
     { path: '/login', component: loadPage('Login') },
-    { path: '/secure', component: loadPage('Secure')},
+    // { path: '/secure', component: loadPage('Secure')},
     { path: '/app', component: loadPage('App')}
 
 ]
