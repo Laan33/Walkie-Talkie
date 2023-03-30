@@ -35,6 +35,7 @@ export default {
         console.log(result.data);
         
         this.locationArray = result.data;
+        alert("You have matched with:\n"+this.locationArray.join('\n'));
       } catch (error) {
         console.error(error);
       }
@@ -48,18 +49,8 @@ export default {
     <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
   </div>
   <!-- Table to display matching users -->
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Phone Number</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(item, index) in locationArray" :key="index">
-        <td>{{ item.split('\t')[0] }}</td>
-        <td>{{ item.split('\t')[1] }}</td>
-      </tr>
-    </tbody>
-  </table>
+
 </template>
+<style>
+
+</style>

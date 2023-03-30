@@ -36,20 +36,13 @@
       </select>
     </div>
 
-
-
-
     <div class="mb-3 right">
       <button type="button" @click="postUserLocation" class="btn btn-primary">Post location</button>
     </div>
-
-    <div>
-      <MapComponent :map1="state1" :map2="state2" />
-    </div>
-
-    <MatchingComponent :map1="state1" :map2="state2" />
-
   </div>
+  <MapComponent :map1="state1" :map2="state2" />
+
+  <MatchingComponent :map1="state1" :map2="state2" />
 
 </template>
 
