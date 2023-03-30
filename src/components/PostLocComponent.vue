@@ -1,48 +1,52 @@
 <template>
+
   <div class="card">
-    <div class="mb-3 center">
-      <label for="exampleUsernameInput1" class="form-label">Username</label>
-      <input type="text" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
-    </div>
-    <div class="mb-3 center">
-      <label for="examplePhoneNumInput" class="form-label">Phone number</label>
-      <input type="text" class="form-control" v-model="phoneNum" id="phoneNum1" placeholder="Phone Number">
-    </div>
-    <label>Where are you?</label>
-    <div class="mb-3 center">
-      <select name="state1" v-model="state1" id="state1" :value="value">
+    <table>
+      <tr><td>
+        <div class="left">
+    <label for="exampleUsernameInput1" class="form-label">Username</label>
+    <input type="text" class="form-control" v-model="username" id="exampleUsernameInput1" placeholder="Username">
+        </div>
+        <div class="right">
+          <label for="examplePhoneNumInput" class="form-label">Phone number</label>
+          <input type="text" class="form-control" v-model="phoneNum" id="phoneNum1" placeholder="Phone Number">
+        </div>
+        <div >
+          <label>Where are you?</label>
+    <select name="state1" v-model="state1" id="state1" :value="value">
 
-        <option value="DEFAULT" selected="selected">Location</option>
-        <option value="ES">Eyre Square</option>
-        <option value="UG">University of Galway</option>
-        <option value="WS">Westside</option>
-        <option value="KC">Knocknacarra</option>
-        <option value="CG">Claregalway</option>
-        <option value="SH">Salthill</option>
-
-      </select>
-    </div>
+      <option value="DEFAULT" disabledselected="selected">Current Location</option>
+      <option value="ES">Eyre Square</option>
+      <option value="UG">University of Galway</option>
+      <option value="WS">Westside</option>
+      <option value="KC">Knocknacarra</option>
+      <option value="CG">Claregalway</option>
+      <option value="SH">Salthill</option>
+    </select>
+        </div>
+        <div >
     <label>Where are you going?</label>
-    <div class="mb-3 center">
-      <select name="state2" v-model="state2" id="state2" :value="value">
-
-        <option value="DEFAULT" selected="selected">Location</option>
-        <option value="ES">Eyre Square</option>
-        <option value="UG">University of Galway</option>
-        <option value="WS">Westside</option>
-        <option value="KC">Knocknacarra</option>
-        <option value="CG">Claregalway</option>
-        <option value="SH">Salthill</option>
-      </select>
+    <select name="state2" v-model="state2" id="state2" :value="value">
+      <option value="DEFAULT" disabled selected="selected">Destination</option>
+      <option value="ES">Eyre Square</option>
+      <option value="UG">University of Galway</option>
+      <option value="WS">Westside</option>
+      <option value="KC">Knocknacarra</option>
+      <option value="CG">Claregalway</option>
+      <option value="SH">Salthill</option>
+    </select>
+        </div>
+    <div class="buttons">
+    <button type="button" @click="postUserLocation" class="btn btn-primary">Post location</button>
     </div>
+    <MatchingComponent :map1="state1" :map2="state2" />
+    </td>
 
-    <div class="mb-3 right">
-      <button type="button" @click="postUserLocation" class="btn btn-primary">Post location</button>
-    </div>
+      <td>
+    <MapComponent :map1="state1" :map2="state2" />
+      </td>
+    </tr></table>
   </div>
-  <MapComponent :map1="state1" :map2="state2" />
-
-  <MatchingComponent :map1="state1" :map2="state2" />
 
 </template>
 
@@ -54,14 +58,14 @@ import MatchingComponent from "@/components/MatchingComponent.vue";
 
 export default {
   name: 'PostLocation',
-  
+
 
   setup() {
     const state1 = ref('DEFAULT');
     const state2 = ref('DEFAULT');
     const username = ref(''); // Your username goes here
     const phoneNum = ref('');
-    
+
     const postUserLocation = async () => {
       console.log("phone: " + phoneNum1.value + " ,example: " + exampleUsernameInput1.value);
       const functions = getFunctions();
@@ -95,26 +99,34 @@ export default {
 };
 </script>
 <style scoped>
-.card{
-  max-height: 100%;
-  max-width: 100%;
+.card {
+  width: 70%;
+  max-height: 100vh;
   margin: 0 auto;
   padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgb(98, 63, 35);
+  background-color: #1e293b;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  box-shadow: 0px 0px 20px rgb(98, 63, 35);
-  background-color: #1e293b;
-  text-align: center;
-  background-size: cover;
 }
-label{
+div{
+  display: inline-block;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+button{
+  margin-bottom: 1em;
+}
+label {
   color: #fff;
 }
+
+
 input {
-  width: 15em;
+  width: 80%;
   margin-bottom: 20px;
   padding: 10px;
   border: none;
@@ -124,33 +136,32 @@ input {
   font-size: 14px;
 }
 
-select{
+select {
   width: 15em;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
+  margin-left: 1em;
   border: none;
   background-color: #4ade80;
   text-align: center;
   font-size: 14px;
 }
-option{
+
+option {
   background-color: #ffffff;
 }
 
-input::placeholder{
-color: #fff;
+input::placeholder {
+  color: #1e293b;
 }
-
 
 @media (max-width: 1300px) {
   .card {
-    width: 100%;
-    max-width: 350px;
     margin-top: 1em;
   }
 }
-@media (max-width: 576px) {
 
-  .card{
+@media (max-width: 576px) {
+  .card {
     width: 70%;
   }
 }

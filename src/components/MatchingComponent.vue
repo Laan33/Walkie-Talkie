@@ -33,9 +33,11 @@ export default {
           "destination": this.map2
         });
         console.log(result.data);
-        
+
         this.locationArray = result.data;
-        alert("You have matched with:\n"+this.locationArray.join('\n'));
+        let myAlert =this.locationArray.join('\n');
+        let alert = document.getElementById("alert");
+        alert.innerHTML = myAlert;
       } catch (error) {
         console.error(error);
       }
@@ -48,9 +50,13 @@ export default {
   <div class="mb-3 right">
     <button type="button" @click="getMatchingUsers" class="btn btn-primary">Show Matching Users</button>
   </div>
-  <!-- Table to display matching users -->
-
+  <div id="alert" class="alert alert-success" role="alert">
+    You matched with:
+  </div>
 </template>
-<style>
-
+<style scoped>
+.alert{
+  background-color: #4ADE80FF;
+  width: 50%;
+}
 </style>

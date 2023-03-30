@@ -1,7 +1,7 @@
 <template>
   <body>
+  <UserIDComponent />
     <PostLocComponent />
-    <UserIDComponent />
   </body>
 </template>
 
@@ -49,6 +49,5 @@ body{
   height: 100vh;
   flex-direction: column;
   background-size:cover ;
-
 }
 </style>
